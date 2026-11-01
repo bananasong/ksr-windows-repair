@@ -48,6 +48,18 @@ class ServerTests(unittest.TestCase):
         status, _ = self.request("/?t=" + self.state.token)
         self.assertEqual(status, 200)
 
+    def test_heartbeat_requires_token_and_works_during_long_operation(self):
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            self.request('/api/heartbeat')
+        self.assertEqual(error.exception.code, 403)
+        error.exception.close()
+        self.assertIsNone(self.state.last_client_seen)
+        with self.state.lock:
+            code, response = self.request('/api/heartbeat', headers={'X-KSR-Token': self.state.token})
+        self.assertEqual(code, 200)
+        self.assertTrue(json.loads(response)['ok'])
+        self.assertIsNotNone(self.state.last_client_seen)
+
     def test_cross_origin_request_rejected_even_with_token(self):
         with self.assertRaises(urllib.error.HTTPError) as error:
             self.request("/api/bootstrap", headers={"X-KSR-Token": self.state.token, "Origin": "https://example.com"})

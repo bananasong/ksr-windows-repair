@@ -310,8 +310,11 @@ def main(argv=None) -> int:
 
     ui = sub.add_parser("ui", help="打开图形界面")
     ui.add_argument("--build-pack", action="store_true", help="强制重建规则包")
-    ui.add_argument("--browser", action="store_true",
-                    help="用默认浏览器打开，不开独立窗口")
+    mode = ui.add_mutually_exclusive_group()
+    mode.add_argument("--browser", action="store_true", default=True,
+                      help="用系统默认浏览器打开（默认）")
+    mode.add_argument("--app-window", action="store_false", dest="browser",
+                      help="尝试使用独立 Edge/Chrome 应用窗口")
     ui.add_argument("--no-window", action="store_true",
                     help="只提供本地服务并打印地址，不打开任何窗口")
     ui.add_argument("--width", type=int, default=1120)

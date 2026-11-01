@@ -15,6 +15,7 @@ import json
 import os
 import secrets
 import threading
+import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -54,6 +55,10 @@ class State:
         self.lock = threading.Lock()
         self.last: dict[str, dict] = {}      # group -> 该组最近一次扫描结果
         self.env: dict = {}
+        self.last_client_seen: float | None = None
+
+    def touch_client(self):
+        self.last_client_seen = time.monotonic()
 
     def groups_for(self, nav_id: str) -> list[str]:
         nav = NAV_BY_ID.get(nav_id) or NAV_BY_ID["all"]
@@ -110,6 +115,7 @@ class Handler(BaseHTTPRequestHandler):
         origin = self.headers.get("Origin")
         if (secrets.compare_digest(tok, self.state.token) and self.headers.get("Host") == expected
                 and (not origin or origin == "http://" + expected)):
+            self.state.touch_client()
             return True
         self._json({"error": "token 无效"}, 403)
         return False
@@ -138,6 +144,10 @@ class Handler(BaseHTTPRequestHandler):
             if not self._authed():
                 return
             return self._json(self._bootstrap())
+        if path == '/api/heartbeat':
+            if not self._authed():
+                return
+            return self._json({'ok': True})
         if path == "/api/history":
             if not self._authed():
                 return
@@ -212,6 +222,7 @@ class Handler(BaseHTTPRequestHandler):
         st = self.state
         if (parse_qs(urlparse(self.path).query).get("t") or [""])[0] != st.token:
             return self._json({"error": "请使用启动器提供的会话链接"}, 403)
+        st.touch_client()
         if self.headers.get("Host") != f"127.0.0.1:{self.server.server_address[1]}":
             return self._json({"error": "Host 无效"}, 403)
         with st.lock:

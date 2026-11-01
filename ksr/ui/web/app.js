@@ -70,6 +70,7 @@ let BOOT = null;
 
 async function boot() {
   BOOT = await api('/api/bootstrap');
+  setInterval(() => api('/api/heartbeat').catch(() => {}), 5000);
   const want = (location.hash || '').replace('#', '');
   if (want && BOOT.nav.some((n) => n.id === want)) STATE.nav = want;
   renderNav();

@@ -12,6 +12,8 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import threading
@@ -19,6 +21,21 @@ import time
 import webbrowser
 
 from . import server
+
+
+def _wait_for_ui(state, startup_timeout=120, client_timeout=120):
+    """Chromium may hand off a window and immediately exit its launch process."""
+    started = previous = time.monotonic()
+    while True:
+        now = time.monotonic()
+        # Allow the page to renew its lease after machine sleep / process suspension.
+        if now - previous > 15 and state.last_client_seen is not None:
+            state.touch_client()
+        previous = now
+        seen = state.last_client_seen
+        if (seen is None and now - started >= startup_timeout) or (seen is not None and now - seen >= client_timeout):
+            return
+        time.sleep(0.4)
 
 
 def _find_browser() -> str | None:
@@ -54,14 +71,14 @@ def run(cfg, width: int = 1120, height: int = 780, browser_only: bool = False,
         for x in state.env["warnings"]:
             print(f"  注意：{x}", flush=True)
 
+    profile = None
     try:
         if serve_only:
             print("仅提供本地服务，未打开窗口。Ctrl+C 退出。", flush=True)
             while True:
                 time.sleep(1)
         if exe:
-            profile = os.path.join(tempfile.gettempdir(), "ksr-webview-profile")
-            os.makedirs(profile, exist_ok=True)
+            profile = tempfile.mkdtemp(prefix="ksr-webview-")
             args = [
                 exe,
                 f"--app={url}",
@@ -71,18 +88,25 @@ def run(cfg, width: int = 1120, height: int = 780, browser_only: bool = False,
                 "--no-default-browser-check",
                 "--disable-features=Translate,MediaRouter",
                 "--disable-background-timer-throttling",
+                "--disable-renderer-backgrounding",
+                "--disable-backgrounding-occluded-windows",
             ]
-            proc = subprocess.Popen(args)
-            print("按 Ctrl+C 或关闭窗口退出。", flush=True)
-            while proc.poll() is None:
-                time.sleep(0.4)
+            subprocess.Popen(args)
+            print("关闭窗口后后台将在约两分钟内退出；Ctrl+C 可立即退出。", flush=True)
+            _wait_for_ui(state)
         else:
-            webbrowser.open(url)
-            print("已在默认浏览器中打开（Ctrl+C 退出）。", flush=True)
-            while True:
-                time.sleep(1)
+            if not webbrowser.open(url, new=1, autoraise=True):
+                raise RuntimeError('系统默认浏览器未能打开，请检查默认浏览器设置')
+            print("已在默认浏览器中打开；关闭页面后后台约两分钟退出。", flush=True)
+            _wait_for_ui(state)
     except KeyboardInterrupt:
         pass
     finally:
         httpd.shutdown()
+        httpd.server_close()
+        t.join(timeout=2)
+        if profile:
+            target = Path(profile).resolve()
+            if target.parent == Path(tempfile.gettempdir()).resolve() and target.name.startswith('ksr-webview-'):
+                shutil.rmtree(target, ignore_errors=True)
     return 0
