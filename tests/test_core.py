@@ -1,5 +1,7 @@
 import os
 import tempfile
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -56,6 +58,14 @@ class EngineTests(unittest.TestCase):
 
 
 class ApiTests(unittest.TestCase):
+    def test_selftest_runs_on_non_chinese_windows_codepage(self):
+        with tempfile.TemporaryDirectory() as directory:
+            env = os.environ.copy()
+            env.update(PYTHONIOENCODING="cp1252", KSR_STATE_DIR=directory)
+            result = subprocess.run([sys.executable, "-m", "ksr.selftest"], env=env, capture_output=True, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr.decode("ascii", errors="replace"))
+        self.assertIn(b"SELFTEST PASS", result.stdout)
+
     def test_file_search_tries_matching_architecture(self):
         with patch.object(api, "_candidate_dirs", return_value=["x64", "x86"]), \
              patch.object(api.os.path, "isfile", return_value=True), \

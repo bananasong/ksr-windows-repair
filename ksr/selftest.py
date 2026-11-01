@@ -43,6 +43,8 @@ def _mk(sandbox: str) -> dict:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
     sandbox = tempfile.mkdtemp(prefix="ksr_selftest_")
     ok = True
     try:
