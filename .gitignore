@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.buildenv/
+build/
+dist/
+release/
+output/
+*.log
+ksr-ui-error.log
+analysis/
+out/
+target/
+*.7z
+.workbuddy/

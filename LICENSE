@@ -1,0 +1,32 @@
+MIT License
+
+Copyright (c) 2026 KSR contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+补充说明（不属于 MIT 条款，仅为使用提示）
+
+1. 本程序会修改系统服务、注册表与文件。使用者应自行评估风险，
+   并在执行「一键优化」前确认每一项的影响。
+2. 安装运行库与 DirectX 时，程序会从微软官方地址下载安装包，
+   这些安装包受其各自许可条款约束，不属于本项目的分发内容。
+3. 本项目以 Python 独立实现检测和修复行为，部分设计参考本地逆向研究。
+   产品发行包不附带商业软件二进制、提取的 Lua 规则原文或私有密钥。

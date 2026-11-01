@@ -1,0 +1,2 @@
+# Keep source archive and Git content byte-identical, including Windows launchers.
+* -text

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ksr-windows-repair"
+version = "1.1.0a1"
+description = "Free, local Windows diagnostics and repair with readable rules and repair history"
+readme = "ksr/README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["ksr/LICENSE"]
+classifiers = ["Development Status :: 3 - Alpha", "Operating System :: Microsoft :: Windows",
+               "Programming Language :: Python :: 3", "Topic :: System :: Systems Administration"]
+
+[project.scripts]
+ksr = "ksr.__main__:main"
+
+[tool.setuptools]
+packages = ["ksr", "ksr.ui"]
+
+[tool.setuptools.package-data]
+ksr = ["rules/*.json", "rules/*.ksrp", "ui/web/*.html", "ui/web/*.css", "ui/web/*.js", "LICENSE"]

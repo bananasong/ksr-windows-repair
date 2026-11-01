@@ -1,0 +1,3435 @@
+{
+  "schema": "ksr.rulepack/1",
+  "groups": [
+    {
+      "id": "dll",
+      "order": 10,
+      "title": "DLL 文件",
+      "icon": "fixsysdll",
+      "desc": "系统 DLL 缺失或损坏，会导致软件与游戏无法启动"
+    },
+    {
+      "id": "runtime",
+      "order": 20,
+      "title": "常用运行库",
+      "icon": "fixvcnet",
+      "desc": "VC++ / MSXML / .NET 等运行库损坏或未装全，软件会提示缺少 DLL"
+    },
+    {
+      "id": "sysopt_svc",
+      "order": 25,
+      "title": "优化服务设置，提升系统稳定性",
+      "icon": "fixservices",
+      "desc": "优化系统服务项，解决电脑问题"
+    },
+    {
+      "id": "sysopt_sysset",
+      "order": 26,
+      "title": "优化系统设置，提升系统稳定性",
+      "icon": "fixsysdll",
+      "desc": "当桌面异常时，可勾选进行优化"
+    },
+    {
+      "id": "sysopt_priv",
+      "order": 27,
+      "title": "优化系统权限设置，提升隐私保护",
+      "icon": "fixsoftdll",
+      "desc": "一键关闭系统隐私权限，保护个人信息安全"
+    },
+    {
+      "id": "sysopt_taskbar",
+      "order": 28,
+      "title": "优化任务栏设置，使用更便捷",
+      "icon": "fixtaskbar",
+      "desc": "优化任务栏图标，提升电脑运行速度"
+    },
+    {
+      "id": "sysopt_deskicon",
+      "order": 29,
+      "title": "优化桌面图标设置，让桌面更美观",
+      "icon": "fixdesktop",
+      "desc": "显示核心功能图标，提升电脑使用效率"
+    },
+    {
+      "id": "sysopt_menu",
+      "order": 30,
+      "title": "优化右键菜单设置，提升右键速度",
+      "icon": "fixsrcmenu",
+      "desc": "优化菜单样式，提升电脑使用效率"
+    },
+    {
+      "id": "sysopt_explorer",
+      "order": 31,
+      "title": "优化文件设置，提升浏览效率",
+      "icon": "fixfileset",
+      "desc": "优化资源管理器设置，提升办公效率"
+    },
+    {
+      "id": "sysopt_udisk",
+      "order": 32,
+      "title": "优化U盘设置，保护数据安全",
+      "icon": "fixudisk",
+      "desc": "移动设备接入电脑自动运行移动设备的程序，容易让电脑感染病毒"
+    },
+    {
+      "id": "sysopt_camera",
+      "order": 33,
+      "title": "检查摄像头系统默认设置是否正常",
+      "icon": "fixcamera",
+      "desc": "可能导致设备错误码19，建议修复"
+    },
+    {
+      "id": "sysopt_gpu",
+      "order": 34,
+      "title": "检查显卡系统默认设置是否正常",
+      "icon": "fixgpu",
+      "desc": "可能导致设备错误码19，建议修复"
+    },
+    {
+      "id": "sysopt_mouse",
+      "order": 35,
+      "title": "检查鼠标系统默认设置是否正常",
+      "icon": "fixmouse",
+      "desc": "可能导致设备错误码19，建议修复"
+    },
+    {
+      "id": "slow_boot",
+      "order": 61,
+      "title": "开机时系统服务优化",
+      "icon": "pcslow",
+      "desc": "优化开机时加载的系统服务与资源分配策略"
+    },
+    {
+      "id": "svc",
+      "order": 30,
+      "title": "系统服务",
+      "icon": "fixservices",
+      "desc": "关键服务被禁用或未运行，会直接导致对应功能失效"
+    },
+    {
+      "id": "audio",
+      "order": 40,
+      "title": "电脑声音",
+      "icon": "fixaudio",
+      "desc": "异常项会导致您的电脑没有声音，影响电脑使用"
+    },
+    {
+      "id": "print",
+      "order": 50,
+      "title": "打印机问题",
+      "icon": "fixprinter",
+      "desc": "异常项可能会影响您的打印机正常使用，请尽快修复"
+    },
+    {
+      "id": "perf",
+      "order": 60,
+      "title": "电脑卡慢",
+      "icon": "pcslow",
+      "desc": "优化后可显著提升电脑运行速度与稳定性"
+    },
+    {
+      "id": "desk",
+      "order": 70,
+      "title": "桌面与文件关联",
+      "icon": "fixdesktop",
+      "desc": "桌面、任务栏、文件关联异常会影响日常操作"
+    },
+    {
+      "id": "crash",
+      "order": 80,
+      "title": "蓝屏与崩溃",
+      "icon": "dllsystem",
+      "desc": "转储与错误报告配置异常时，蓝屏原因无法定位"
+    },
+    {
+      "id": "sys",
+      "order": 90,
+      "title": "系统综合",
+      "icon": "sys",
+      "desc": "系统时间、网络栈、权限等基础项"
+    },
+    {
+      "id": "game",
+      "order": 100,
+      "title": "游戏必备组件",
+      "icon": "fixgamedll",
+      "desc": "游戏运行依赖的图形、音频与物理引擎组件"
+    },
+    {
+      "id": "manual",
+      "order": 110,
+      "title": "手动修复",
+      "icon": "manualrepair",
+      "desc": "需要官方安装包或人工确认，程序不代劳"
+    },
+    {
+      "id": "udisk",
+      "order": 120,
+      "title": "U 盘与外设",
+      "icon": "fixudisk",
+      "desc": "可移动磁盘写入策略与设备状态"
+    }
+  ],
+  "scripts": [
+    {
+      "uuid": "2ea757ae-f3a6-5413-a20c-9a355a9f107f",
+      "group": "dll",
+      "title": "VC++ 运行库缺失",
+      "severity": "error",
+      "impact": "大量软件与游戏会提示缺少 dll 无法启动",
+      "check": {
+        "api": "vcrt.present",
+        "args": {}
+      },
+      "tags": [
+        "fixvcnet",
+        "vcfix"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "734c73a8-863b-50d5-8ad0-807ebe24dc19",
+      "group": "dll",
+      "title": "DirectX 组件缺失",
+      "severity": "error",
+      "impact": "游戏画面卡顿、花屏或无法启动",
+      "check": {
+        "api": "dx.present",
+        "args": {}
+      },
+      "tags": [
+        "fixdirectx"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "4d112e46-51ec-50ac-8929-741b3a0141f1",
+      "group": "dll",
+      "title": "UCRT 通用运行库缺失",
+      "severity": "error",
+      "impact": "新版软件启动即报 0xc000007b",
+      "check": {
+        "api": "files.present",
+        "args": {
+          "names": [
+            "ucrtbase.dll"
+          ],
+          "arch": 64
+        }
+      },
+      "tags": [
+        "fixdll",
+        "dllfix"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "3b4c421e-a257-5d2a-be33-c65a924146ce",
+      "group": "dll",
+      "title": "D3D 编译器缺失",
+      "severity": "warn",
+      "impact": "部分游戏与播放器渲染失败",
+      "check": {
+        "api": "files.present",
+        "args": {
+          "names": [
+            "d3dcompiler_47.dll"
+          ]
+        }
+      },
+      "tags": [
+        "fixdirectx",
+        "gamefix"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "02f87142-bfc3-5368-ad0a-49a67635ddcd",
+      "group": "dll",
+      "title": "游戏音频运行库缺失",
+      "severity": "info",
+      "impact": "老游戏无声音或启动报错",
+      "check": {
+        "api": "files.present",
+        "args": {
+          "names": [
+            "openal32.dll"
+          ]
+        }
+      },
+      "tags": [
+        "fixgamedll",
+        "gamefix"
+      ],
+      "needs_admin": true,
+      "needs_reboot": true,
+      "optional": true
+    },
+    {
+      "uuid": "04913c41-10e0-5d7d-a8cc-7e0135f8e226",
+      "group": "svc",
+      "title": "打印后台处理程序未运行",
+      "severity": "error",
+      "impact": "打印机完全不可用",
+      "check": {
+        "api": "svc.state",
+        "args": {
+          "name": "Spooler",
+          "expect": "running"
+        }
+      },
+      "tags": [
+        "fixprinter",
+        "fixservices"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "svc.start",
+        "args": {
+          "name": "Spooler"
+        }
+      },
+      "verify": {
+        "api": "svc.state",
+        "args": {
+          "name": "Spooler",
+          "expect": "running"
+        }
+      }
+    },
+    {
+      "uuid": "8e6e4cd8-ccf8-5aa7-8bed-14dae37045b2",
+      "group": "svc",
+      "title": "音频服务未运行",
+      "severity": "error",
+      "impact": "电脑没有声音",
+      "check": {
+        "api": "svc.state",
+        "args": {
+          "name": "Audiosrv",
+          "expect": "running"
+        }
+      },
+      "tags": [
+        "fixaudio",
+        "sound"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "svc.start",
+        "args": {
+          "name": "Audiosrv"
+        }
+      },
+      "verify": {
+        "api": "svc.state",
+        "args": {
+          "name": "Audiosrv",
+          "expect": "running"
+        }
+      }
+    },
+    {
+      "uuid": "8786e6aa-bd90-545b-b07a-b9ec36f8ccbe",
+      "group": "svc",
+      "title": "音频端点服务未运行",
+      "severity": "error",
+      "impact": "音频设备列表为空，扬声器不可用",
+      "check": {
+        "api": "svc.state",
+        "args": {
+          "name": "AudioEndpointBuilder",
+          "expect": "running"
+        }
+      },
+      "tags": [
+        "fixaudio"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "svc.start",
+        "args": {
+          "name": "AudioEndpointBuilder"
+        }
+      },
+      "verify": {
+        "api": "svc.state",
+        "args": {
+          "name": "AudioEndpointBuilder",
+          "expect": "running"
+        }
+      }
+    },
+    {
+      "uuid": "dd2f8bb4-869d-57ac-a076-61bf1efafef4",
+      "group": "svc",
+      "title": "WMI 服务被禁用",
+      "severity": "warn",
+      "impact": "系统信息查询与部分软件安装失败",
+      "check": {
+        "api": "svc.start_type",
+        "args": {
+          "name": "Winmgmt",
+          "forbid": [
+            "disabled"
+          ]
+        }
+      },
+      "tags": [
+        "fixservices",
+        "sys"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "svc.set_start",
+        "args": {
+          "name": "Winmgmt",
+          "start_type": "auto"
+        }
+      },
+      "verify": {
+        "api": "svc.start_type",
+        "args": {
+          "name": "Winmgmt",
+          "forbid": [
+            "disabled"
+          ]
+        }
+      }
+    },
+    {
+      "uuid": "2adb0542-214a-5937-a2d9-e859c01cbb69",
+      "group": "svc",
+      "title": "错误报告服务被禁用",
+      "severity": "info",
+      "impact": "崩溃信息无法收集，问题难以定位",
+      "check": {
+        "api": "svc.start_type",
+        "args": {
+          "name": "WerSvc",
+          "forbid": [
+            "disabled"
+          ]
+        }
+      },
+      "tags": [
+        "fixservices"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "svc.set_start",
+        "args": {
+          "name": "WerSvc",
+          "start_type": "manual"
+        }
+      },
+      "verify": {
+        "api": "svc.start_type",
+        "args": {
+          "name": "WerSvc",
+          "forbid": [
+            "disabled"
+          ]
+        }
+      }
+    },
+    {
+      "uuid": "8ef9cc69-4554-5e54-8a70-859095351e36",
+      "group": "svc",
+      "title": "Windows Search 未运行",
+      "severity": "info",
+      "impact": "开始菜单与资源管理器搜索变慢",
+      "check": {
+        "api": "svc.state",
+        "args": {
+          "name": "WSearch",
+          "expect": "running"
+        }
+      },
+      "tags": [
+        "seachfix"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "svc.start",
+        "args": {
+          "name": "WSearch"
+        }
+      },
+      "verify": {
+        "api": "svc.state",
+        "args": {
+          "name": "WSearch",
+          "expect": "running"
+        }
+      }
+    },
+    {
+      "uuid": "1d926c19-6fdd-559b-9316-ff0f15d9d33a",
+      "group": "svc",
+      "title": "核心系统服务异常",
+      "severity": "warn",
+      "impact": "系统功能缺失或反复报错",
+      "check": {
+        "api": "svc.all",
+        "args": {
+          "items": [
+            {
+              "name": "Themes",
+              "start_type": "auto"
+            },
+            {
+              "name": "Dnscache",
+              "state": "running"
+            },
+            {
+              "name": "nsi",
+              "state": "running"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "fixservices",
+        "sys"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "svc.set_start",
+        "args": {
+          "name": "Themes",
+          "start_type": "auto"
+        }
+      },
+      "verify": {
+        "api": "svc.all",
+        "args": {
+          "items": [
+            {
+              "name": "Themes",
+              "start_type": "auto"
+            },
+            {
+              "name": "Dnscache",
+              "state": "running"
+            },
+            {
+              "name": "nsi",
+              "state": "running"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "uuid": "57602556-61a8-5f37-a79c-bcd571a7f756",
+      "group": "audio",
+      "title": "无可用的音频输出设备",
+      "severity": "error",
+      "impact": "电脑没有声音，无法播放任何音频",
+      "check": {
+        "api": "audio.endpoints",
+        "args": {}
+      },
+      "tags": [
+        "fixaudio",
+        "sound"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "audio.restart",
+        "args": {}
+      },
+      "verify": {
+        "api": "audio.endpoints",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "dd2591a9-ab16-582c-9290-93f8710d5c29",
+      "group": "audio",
+      "title": "音频相关服务异常",
+      "severity": "warn",
+      "impact": "声音时有时无或设备识别失败",
+      "check": {
+        "api": "audio.services",
+        "args": {}
+      },
+      "tags": [
+        "fixaudioreg",
+        "sound"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "audio.restart",
+        "args": {}
+      },
+      "verify": {
+        "api": "audio.services",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "5d8e7684-e467-53da-9844-1afa2590cc13",
+      "group": "print",
+      "title": "系统未安装打印机",
+      "severity": "info",
+      "impact": "无法使用任何打印功能",
+      "check": {
+        "api": "print.exists",
+        "args": {}
+      },
+      "tags": [
+        "fixprinter"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "ac444559-e7e0-5177-bc42-bdca76c296be",
+      "group": "print",
+      "title": "打印队列积压",
+      "severity": "warn",
+      "impact": "打印任务卡住，后续任务无法提交",
+      "check": {
+        "api": "print.queue",
+        "args": {
+          "max_jobs": 0
+        }
+      },
+      "tags": [
+        "fixprinter",
+        "printer"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "print.clear_queue",
+        "args": {}
+      },
+      "verify": {
+        "api": "print.queue",
+        "args": {
+          "max_jobs": 0
+        }
+      }
+    },
+    {
+      "uuid": "b7f257ca-ba8c-527d-b379-ced3fcd6bb12",
+      "group": "perf",
+      "title": "开机启动项过多",
+      "severity": "warn",
+      "impact": "开机变慢、进桌面后长时间卡顿",
+      "check": {
+        "api": "startup.count",
+        "args": {
+          "max": 12
+        }
+      },
+      "tags": [
+        "pcslow"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "fc402216-3127-5e1f-9e69-c630d40486d9",
+      "group": "perf",
+      "title": "临时文件占用过大",
+      "severity": "warn",
+      "impact": "C 盘空间被挤占，系统响应变慢",
+      "check": {
+        "api": "fs.size_lt",
+        "args": {
+          "path": "%TEMP%",
+          "max_mb": 2048
+        }
+      },
+      "tags": [
+        "pcslow"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "fs.clean",
+        "args": {
+          "path": "%TEMP%",
+          "patterns": [
+            "*"
+          ],
+          "older_days": 3,
+          "max_files": 3000
+        }
+      },
+      "verify": {
+        "api": "fs.size_lt",
+        "args": {
+          "path": "%TEMP%",
+          "max_mb": 2048
+        }
+      }
+    },
+    {
+      "uuid": "5e48a32f-af5e-505d-8425-ddb594cb12a1",
+      "group": "perf",
+      "title": "系统临时目录占用过大",
+      "severity": "info",
+      "impact": "C 盘空间不足，更新与安装失败",
+      "check": {
+        "api": "fs.size_lt",
+        "args": {
+          "path": "%SystemRoot%\\Temp",
+          "max_mb": 3072
+        }
+      },
+      "tags": [
+        "pcslow"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "fs.clean",
+        "args": {
+          "path": "%SystemRoot%\\Temp",
+          "patterns": [
+            "*"
+          ],
+          "older_days": 7,
+          "max_files": 3000
+        }
+      },
+      "verify": {
+        "api": "fs.size_lt",
+        "args": {
+          "path": "%SystemRoot%\\Temp",
+          "max_mb": 3072
+        }
+      }
+    },
+    {
+      "uuid": "7f3124bb-8c2f-5168-9cbf-7ef1d37f0b1e",
+      "group": "perf",
+      "title": "进程异常占用 CPU",
+      "severity": "warn",
+      "impact": "操作卡顿、反应迟缓、风扇狂转",
+      "check": {
+        "api": "proc.cpu_hogs",
+        "args": {
+          "threshold": 85,
+          "interval": 0.6
+        }
+      },
+      "tags": [
+        "pcslow"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "84cb26e8-f45d-5054-be4d-a74b05204ff7",
+      "group": "perf",
+      "title": "系统盘剩余空间不足",
+      "severity": "warn",
+      "impact": "系统更新失败、虚拟内存不足",
+      "check": {
+        "api": "disk.free",
+        "args": {
+          "drive": "%SystemDrive%\\",
+          "min_gb": 10
+        }
+      },
+      "tags": [
+        "pcslow",
+        "sys"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "61aa6e98-c6aa-5698-a650-17062555131c",
+      "group": "desk",
+      "title": "Winlogon 外壳配置被篡改",
+      "severity": "error",
+      "impact": "开机后进不了桌面，只有黑屏或命令行",
+      "check": {
+        "api": "shell.config",
+        "args": {}
+      },
+      "tags": [
+        "fixdesktop",
+        "fixtaskbar"
+      ],
+      "needs_admin": true,
+      "needs_reboot": true,
+      "optional": false,
+      "fix": {
+        "api": "reg.set",
+        "args": {
+          "hive": "HKLM",
+          "key": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+          "name": "Shell",
+          "type": "REG_SZ",
+          "value": "explorer.exe"
+        }
+      },
+      "verify": {
+        "api": "shell.config",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "2cb0195b-8715-5c30-918d-f4589d534a34",
+      "group": "desk",
+      "title": ".exe 文件关联异常",
+      "severity": "error",
+      "impact": "双击任何程序都无法运行",
+      "check": {
+        "api": "assoc.exe",
+        "args": {}
+      },
+      "tags": [
+        "fixfileset"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "assoc.repair",
+        "args": {
+          "ext": ".exe",
+          "progid": "exefile",
+          "command": "\"%1\" %*"
+        }
+      },
+      "verify": {
+        "api": "assoc.exe",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "8c7f0700-a05f-5e6c-aa1a-471bd4442f59",
+      "group": "desk",
+      "title": ".lnk 快捷方式关联异常",
+      "severity": "warn",
+      "impact": "桌面快捷方式双击无反应",
+      "check": {
+        "api": "assoc.lnk",
+        "args": {}
+      },
+      "tags": [
+        "fixfileset",
+        "fixdesktop"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "assoc.repair",
+        "args": {
+          "ext": ".lnk",
+          "progid": "lnkfile"
+        }
+      },
+      "verify": {
+        "api": "assoc.lnk",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "762dfec9-07ff-5170-b1b3-be3989d62fe4",
+      "group": "desk",
+      "title": "资源管理器未运行",
+      "severity": "error",
+      "impact": "桌面空白、任务栏消失",
+      "check": {
+        "api": "explorer.alive",
+        "args": {}
+      },
+      "tags": [
+        "fixdesktop",
+        "fixtaskbar",
+        "fixsrcmenu"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "explorer.restart",
+        "args": {}
+      },
+      "verify": {
+        "api": "explorer.alive",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "30cb17e4-e36b-556f-a16c-bcf3905fd608",
+      "group": "crash",
+      "title": "内存转储被关闭",
+      "severity": "warn",
+      "impact": "蓝屏后无 dump 文件，无法定位原因",
+      "check": {
+        "api": "dump.config",
+        "args": {}
+      },
+      "tags": [
+        "dllsystem",
+        "kdump"
+      ],
+      "needs_admin": true,
+      "needs_reboot": true,
+      "optional": false,
+      "fix": {
+        "api": "dump.set",
+        "args": {
+          "mode": 7
+        }
+      },
+      "verify": {
+        "api": "dump.config",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "0ade0a55-c045-5973-b736-da3bb6835ff7",
+      "group": "crash",
+      "title": "错误报告配置异常",
+      "severity": "info",
+      "impact": "崩溃信息无法上报与本地留存",
+      "check": {
+        "api": "wer.config",
+        "args": {}
+      },
+      "tags": [
+        "kdump",
+        "syslogrule"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "svc.set_start",
+        "args": {
+          "name": "WerSvc",
+          "start_type": "manual"
+        }
+      },
+      "verify": {
+        "api": "wer.config",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "f59f0b1e-096b-5f2d-962a-1c8cebb50148",
+      "group": "crash",
+      "title": "WMI 存储库异常",
+      "severity": "warn",
+      "impact": "系统信息查询报错，部分软件安装失败",
+      "check": {
+        "api": "wmi.repo",
+        "args": {
+          "max_mb": 2048
+        }
+      },
+      "tags": [
+        "sys",
+        "fixservices"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false,
+      "fix": {
+        "api": "svc.restart",
+        "args": {
+          "name": "Winmgmt"
+        }
+      },
+      "verify": {
+        "api": "wmi.repo",
+        "args": {
+          "max_mb": 2048
+        }
+      }
+    },
+    {
+      "uuid": "0f3489c4-10de-522b-89d7-43d71f27cfde",
+      "group": "sys",
+      "title": "系统时间异常",
+      "severity": "error",
+      "impact": "证书校验失败、网站打不开、文件时间错乱",
+      "check": {
+        "api": "time.sane",
+        "args": {}
+      },
+      "tags": [
+        "sys"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "134809c6-d8f1-510c-9bcb-aa3cc7ffbd77",
+      "group": "sys",
+      "title": "网络协议栈目录为空",
+      "severity": "error",
+      "impact": "无法联网，所有网络请求失败",
+      "check": {
+        "api": "net.winsock",
+        "args": {}
+      },
+      "tags": [
+        "sys"
+      ],
+      "needs_admin": true,
+      "needs_reboot": true,
+      "optional": false
+    },
+    {
+      "uuid": "a6e4f9a2-f7a1-58b7-bad2-14d47798d9dc",
+      "group": "sys",
+      "title": "C 盘根目录 ACL 异常",
+      "severity": "warn",
+      "impact": "软件安装、临时文件写入失败",
+      "check": {
+        "api": "fs.writable",
+        "args": {
+          "path": "%SystemDrive%\\",
+          "admin_only": true
+        }
+      },
+      "tags": [
+        "sys",
+        "manualrepair"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": false
+    },
+    {
+      "uuid": "ac988c64-16c5-560d-b49c-406c26dac700",
+      "group": "sys",
+      "title": "修复资源包不完整",
+      "severity": "info",
+      "impact": "缺失的 DLL 无法自动恢复",
+      "check": {
+        "api": "payload.check",
+        "args": {
+          "dir": "%KSR_HOME%\\payload",
+          "must": []
+        }
+      },
+      "tags": [
+        "dllfix",
+        "manualrepair"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "4a21bee2-3da6-5fc0-8982-a0879bd296b9",
+      "group": "udisk",
+      "title": "可移动磁盘被设为只读",
+      "severity": "warn",
+      "impact": "U 盘无法写入文件",
+      "check": {
+        "api": "reg.value",
+        "args": {
+          "hive": "HKLM",
+          "key": "SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies",
+          "name": "WriteProtect",
+          "expect": "0",
+          "missing_ok": true
+        }
+      },
+      "tags": [
+        "fixudisk"
+      ],
+      "needs_admin": true,
+      "needs_reboot": true,
+      "optional": false,
+      "fix": {
+        "api": "reg.set",
+        "args": {
+          "hive": "HKLM",
+          "key": "SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies",
+          "name": "WriteProtect",
+          "type": "REG_DWORD",
+          "value": 0
+        }
+      },
+      "verify": {
+        "api": "reg.value",
+        "args": {
+          "hive": "HKLM",
+          "key": "SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies",
+          "name": "WriteProtect",
+          "expect": "0",
+          "missing_ok": true
+        }
+      }
+    },
+    {
+      "uuid": "86804699-eef5-56b7-af8a-e876ffe747a2",
+      "group": "runtime",
+      "title": "VC++ 2015-2022 运行库 (x64)",
+      "severity": "error",
+      "impact": "当前绝大多数 Windows 软件与游戏都依赖它，缺失时提示 vcruntime140 相关错误",
+      "check": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 14,
+          "arch": "x64"
+        }
+      },
+      "tags": [
+        "vcfix",
+        "fixvcnet"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 14,
+          "arch": "x64"
+        }
+      },
+      "verify": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 14,
+          "arch": "x64"
+        }
+      }
+    },
+    {
+      "uuid": "af5b67dd-525a-5ac4-9a04-8d86b61f9459",
+      "group": "runtime",
+      "title": "VC++ 2015-2022 运行库 (x86)",
+      "severity": "error",
+      "impact": "32 位软件与游戏依赖；64 位系统上也经常缺失，导致老软件无法启动",
+      "check": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 14,
+          "arch": "x86"
+        }
+      },
+      "tags": [
+        "vcfix",
+        "fixvcnet"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 14,
+          "arch": "x86"
+        }
+      },
+      "verify": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 14,
+          "arch": "x86"
+        }
+      }
+    },
+    {
+      "uuid": "d3499f8e-67a3-5fb4-b963-e8e140920442",
+      "group": "runtime",
+      "title": "VC++ 2013 运行库",
+      "severity": "warn",
+      "impact": "2013 年编译的软件与游戏依赖",
+      "check": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 12
+        }
+      },
+      "tags": [
+        "vcfix"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 12
+        }
+      },
+      "verify": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 12
+        }
+      }
+    },
+    {
+      "uuid": "231b8fd3-e358-5329-9f06-2cd7108e24f9",
+      "group": "runtime",
+      "title": "VC++ 2012 运行库",
+      "severity": "warn",
+      "impact": "2012 年编译的软件与游戏依赖",
+      "check": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 11
+        }
+      },
+      "tags": [
+        "vcfix"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 11
+        }
+      },
+      "verify": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 11
+        }
+      }
+    },
+    {
+      "uuid": "9e2c9880-bdfe-504d-b205-7bdf95bb66b2",
+      "group": "runtime",
+      "title": "VC++ 2010 运行库",
+      "severity": "warn",
+      "impact": "2010 年编译的行业软件与老游戏依赖",
+      "check": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 10
+        }
+      },
+      "tags": [
+        "vcfix"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 10
+        }
+      },
+      "verify": {
+        "api": "vcredist.probe",
+        "args": {
+          "major": 10
+        }
+      }
+    },
+    {
+      "uuid": "759101ed-7b1e-5478-ab75-e716619e4980",
+      "group": "runtime",
+      "title": ".NET Framework 4.8",
+      "severity": "warn",
+      "impact": "大量桌面软件与游戏启动器的运行前提",
+      "check": {
+        "api": "dotnet.version",
+        "args": {
+          "min_release": 528040
+        }
+      },
+      "tags": [
+        "dotnet"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "e0f9ff97-d2e2-53c0-99ee-aab0cad4fa04",
+      "group": "game",
+      "title": "DirectX 9 兼容层",
+      "severity": "warn",
+      "impact": "大型游戏与 3D 软件运行黑屏或闪退时，多半是这一层不完整",
+      "check": {
+        "api": "dx.runtime",
+        "args": {}
+      },
+      "tags": [
+        "fixdirectx"
+      ],
+      "needs_admin": true,
+      "needs_reboot": true,
+      "optional": true,
+      "fix": {
+        "api": "directx.install",
+        "args": {}
+      },
+      "verify": {
+        "api": "dx.runtime",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "5682c444-8e87-5059-b643-3316eb66486f",
+      "group": "manual",
+      "title": "重新注册核心 COM 组件",
+      "severity": "error",
+      "impact": "重装运行库后仍报错时，通常是 COM 注册信息损坏，重新注册即可",
+      "check": {
+        "api": "regsvr.state",
+        "args": {}
+      },
+      "tags": [
+        "fixsysdll",
+        "regsvr"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "regsvr.run",
+        "args": {}
+      },
+      "verify": {
+        "api": "regsvr.state",
+        "args": {}
+      }
+    },
+    {
+      "uuid": "b083e2c4-ac4c-51e2-a2ec-9fa703d8f4a3",
+      "group": "manual",
+      "title": "重新注册 Shell / 压缩文件夹组件",
+      "severity": "info",
+      "impact": "资源管理器右键菜单、压缩文件夹功能异常时的兜底修复",
+      "check": {
+        "api": "regsvr.state",
+        "args": {
+          "dlls": [
+            "shell32.dll",
+            "zipfldr.dll"
+          ]
+        }
+      },
+      "tags": [
+        "regsvr"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "regsvr.run",
+        "args": {
+          "dlls": [
+            "shell32.dll",
+            "zipfldr.dll"
+          ]
+        }
+      },
+      "verify": {
+        "api": "regsvr.state",
+        "args": {
+          "dlls": [
+            "shell32.dll",
+            "zipfldr.dll"
+          ]
+        }
+      }
+    },
+    {
+      "uuid": "05a0c6b0-b918-5f48-bf5d-c2c73dea344d",
+      "group": "manual",
+      "title": "重新安装 MSXML 4.0 解析器",
+      "severity": "warn",
+      "impact": "微软已停止随系统分发，需到官网下载 MSXML 4.0 SP3 安装包手动安装",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "msxml_legacy"
+        }
+      },
+      "tags": [
+        "msxml"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "link": "https://www.microsoft.com/en-us/download/details.aspx?id=19662"
+    },
+    {
+      "uuid": "fcfd664f-4d45-547d-b2e6-652d42815104",
+      "group": "dll",
+      "title": "核心图形接口",
+      "severity": "warn",
+      "impact": "所有 2D/3D 渲染的基础，缺失会导致黑屏、软件直接崩溃",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "dx_core"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "4fd33330-cee4-5b4b-868a-24c97c82de10",
+      "group": "dll",
+      "title": "DirectX 9 D3DX 运行库",
+      "severity": "warn",
+      "impact": "老游戏与 CAD/建模软件的 D3DX 辅助库，缺版本会提示 d3dx9_xx.dll 丢失",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "dx9_d3dx"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "directx.install",
+        "args": {}
+      },
+      "verify": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "dx9_d3dx"
+        }
+      }
+    },
+    {
+      "uuid": "4a20ea8e-4c55-5c78-86ee-c2841c9b2409",
+      "group": "dll",
+      "title": "DirectX 10/11 D3DX 运行库",
+      "severity": "warn",
+      "impact": "DX10/11 时代的辅助数学与网格库",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "dx10_d3dx"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "directx.install",
+        "args": {}
+      },
+      "verify": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "dx10_d3dx"
+        }
+      }
+    },
+    {
+      "uuid": "f9dde09b-02f4-5c88-80bd-9fb596b4f2e7",
+      "group": "game",
+      "title": "着色器编译器（历史版本）",
+      "severity": "warn",
+      "impact": "游戏运行期编译 HLSL 着色器，缺版本会闪退或花屏",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "d3dcompiler"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "2c81cd6f-fd1f-565f-8d2d-1f8eb7257957",
+      "group": "game",
+      "title": "XInput 手柄接口",
+      "severity": "warn",
+      "impact": "Xbox 兼容手柄接入，缺失时手柄无响应",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "xinput"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "d55e1310-3f02-5a47-841c-7e69ed0463f7",
+      "group": "game",
+      "title": "XAudio / X3DAudio 音频引擎",
+      "severity": "warn",
+      "impact": "游戏音频混音与 3D 定位，缺失时游戏无声或启动报错",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "xaudio"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "d6858848-6872-5a79-a059-7573ec7a6ad1",
+      "group": "runtime",
+      "title": "Universal CRT 通用运行库",
+      "severity": "warn",
+      "impact": "Win10 起所有 C 运行时都转发到这里，缺失时软件启动即报 0xc000007b",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "ucrt"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "c5ec9cb3-3e96-5f83-9535-b6fb6a7e0674",
+      "group": "runtime",
+      "title": "VC++ 2005 运行库 (msvcr80)",
+      "severity": "warn",
+      "impact": "2005-2008 年编译的老软件依赖，缺失提示 msvcr80.dll 找不到",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "vc80"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 8
+        }
+      },
+      "verify": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "vc80"
+        }
+      }
+    },
+    {
+      "uuid": "cb87fb91-9f09-50cc-84af-9b7690fbde34",
+      "group": "runtime",
+      "title": "VC++ 2008 运行库 (msvcr90)",
+      "severity": "warn",
+      "impact": "2008 年编译的老软件依赖，微软该版本的下载入口已不稳定，需手动安装",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "vc90"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "7169bb00-f07c-5395-a9ed-799baa2ad5d5",
+      "group": "runtime",
+      "title": "VC++ 2002-2013 其余运行库",
+      "severity": "warn",
+      "impact": "更早期的 C 运行库，只在个别古董软件上才会用到",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "vc_legacy"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "8576a6e8-b3e8-5dab-9a53-b02e825e2412",
+      "group": "dll",
+      "title": "MFC / ATL 框架库",
+      "severity": "warn",
+      "impact": "大量国产老软件与行业软件基于 MFC 开发",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "mfc_atl"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "0a75a432-83c7-5231-adfa-9ada34d9d09d",
+      "group": "runtime",
+      "title": "MSXML 核心解析器",
+      "severity": "warn",
+      "impact": "系统与企业软件读取 XML 配置的基础组件",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "msxml_core"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "bd66cbe1-9fc7-50ca-b38a-259525944ac7",
+      "group": "runtime",
+      "title": "脚本宿主组件",
+      "severity": "warn",
+      "impact": "VBScript/JScript 与 WSH 的基础，缺失会导致系统脚本与安装包失败",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "script_host"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "a49318bc-9ca0-528f-a42c-0cbc2468fc5e",
+      "group": "dll",
+      "title": "COM 与 Shell 基础组件",
+      "severity": "warn",
+      "impact": "资源管理器、文件关联、拖放与右键菜单的底层依赖",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "ole_shell"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "39d2fba6-4949-5b4c-8fc5-9147167a7497",
+      "group": "runtime",
+      "title": "媒体播放基础组件",
+      "severity": "warn",
+      "impact": "视频播放、摄像头预览与录屏的底层组件",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "media_foundation"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "4eaf17b1-1513-518f-b0f6-05c298b51cd7",
+      "group": "game",
+      "title": "游戏专用运行库",
+      "severity": "warn",
+      "impact": "独立游戏常用的音频与物理引擎依赖",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "game_extra"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "95ad7671-e288-5dfe-becd-b5818891a0e8",
+      "group": "dll",
+      "title": "OpenMP 并行运行库",
+      "severity": "warn",
+      "impact": "科学计算、视频转码类软件的多线程加速组件",
+      "check": {
+        "api": "dll.catalog",
+        "args": {
+          "cat": "vcomp"
+        }
+      },
+      "tags": [
+        "dllcatalog"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "de157ef6-50e1-5050-9bdc-1a73bcad6970",
+      "group": "sysopt_svc",
+      "title": "优化程序兼容性服务，减少旧程序弹窗干扰",
+      "severity": "warn",
+      "impact": "老程序启动时反复弹「此程序兼容性有问题」，点掉才能继续",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "disprocomass"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "disprocomass"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "disprocomass"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "disprocomass"
+        }
+      }
+    },
+    {
+      "uuid": "a2f14de8-c3ec-5439-9a8c-4d47f33711c9",
+      "group": "sysopt_svc",
+      "title": "优化锁屏推荐服务，关闭广告与内容推广",
+      "severity": "warn",
+      "impact": "锁屏界面会推「Windows 聚焦」广告与推广图，占流量还分心",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "lsadpromo"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "lsadpromo"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "lsadpromo"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "lsadpromo"
+        }
+      }
+    },
+    {
+      "uuid": "fe998993-57ae-566b-9a29-cceaba731aae",
+      "group": "sysopt_svc",
+      "title": "优化开始菜单服务，关闭内容推荐干扰",
+      "severity": "warn",
+      "impact": "开始菜单里塞推荐应用与「建议」，点开就是广告位",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "smstartrec"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "smstartrec"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "smstartrec"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "smstartrec"
+        }
+      }
+    },
+    {
+      "uuid": "3156674e-e16b-5314-b4b9-7d1c6418b313",
+      "group": "sysopt_svc",
+      "title": "优化系统提示服务，关闭更新后的欢迎界面",
+      "severity": "warn",
+      "impact": "每次大版本更新后弹多页「欢迎使用」引导，强制走完",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "upwelwinexp"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "upwelwinexp"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "upwelwinexp"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "upwelwinexp"
+        }
+      }
+    },
+    {
+      "uuid": "6677621b-329f-522b-bcfa-40940be32d97",
+      "group": "sysopt_svc",
+      "title": "优化通知服务，关闭应用弹窗干扰",
+      "severity": "warn",
+      "impact": "各种应用在右下角弹通知，玩游戏时被打断",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "notifromapps"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "notifromapps"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "notifromapps"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "notifromapps"
+        }
+      }
+    },
+    {
+      "uuid": "8d10f1a8-0743-57c3-ae70-5767a3403c92",
+      "group": "sysopt_svc",
+      "title": "优化提示建议服务，停止系统使用建议推送",
+      "severity": "warn",
+      "impact": "系统会推「获取更多使用技巧」之类的建议弹窗",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "winrecon"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "winrecon"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "winrecon"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "winrecon"
+        }
+      }
+    },
+    {
+      "uuid": "85488cd5-9248-5e62-bb14-cb8197d77d64",
+      "group": "sysopt_svc",
+      "title": "优化资源管理器服务，去除文件窗口中的推广内容",
+      "severity": "warn",
+      "impact": "资源管理器顶部显示「推荐」「同步提醒」等推广条",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "expadon"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "expadon"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "expadon"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "expadon"
+        }
+      }
+    },
+    {
+      "uuid": "6f358f21-7430-56d9-a752-b0496dc24f08",
+      "group": "sysopt_svc",
+      "title": "优化云备份提示服务，关闭备份推荐弹窗",
+      "severity": "warn",
+      "impact": "反复弹「备份你的文件」提示，诱导开启 OneDrive",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "odbkpalert"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "odbkpalert"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "odbkpalert"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "odbkpalert"
+        }
+      }
+    },
+    {
+      "uuid": "55676bcb-4963-523b-af76-2e8c98134d3e",
+      "group": "sysopt_svc",
+      "title": "优化更新传输服务，减少网络带宽占用",
+      "severity": "warn",
+      "impact": "后台悄悄上传更新包给其他电脑，上行带宽被吃满、游戏卡顿",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "dooptoff"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "dooptoff"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "dooptoff"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "dooptoff"
+        }
+      }
+    },
+    {
+      "uuid": "d8372f81-4e81-5319-8e99-53897d3ce24a",
+      "group": "sysopt_svc",
+      "title": "优化系统安全服务，修复防护异常问题",
+      "severity": "warn",
+      "impact": "Windows 安全中心服务被禁用后，杀毒与防火墙状态无法上报，防护形同虚设",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "safecenter"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "safecenter"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "safecenter"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "safecenter"
+        }
+      }
+    },
+    {
+      "uuid": "a1376c66-dfb6-5b6c-94f8-a298bda610d1",
+      "group": "sysopt_svc",
+      "title": "优化语言设置服务，修复程序乱码问题",
+      "severity": "warn",
+      "impact": "非 Unicode 程序显示乱码、安装包界面变成问号",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "languagefix"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "languagefix"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "languagefix"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "languagefix"
+        }
+      }
+    },
+    {
+      "uuid": "4b4cd788-2b8f-5b3b-8910-8ae2fa458cfa",
+      "group": "sysopt_svc",
+      "title": "优化驱动更新服务，防止自动安装冲突驱动",
+      "severity": "warn",
+      "impact": "Windows 更新自动装显卡/声卡驱动，覆盖厂商版本导致黑屏、爆音",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "offautoupdrv"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "offautoupdrv"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "offautoupdrv"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "offautoupdrv"
+        }
+      }
+    },
+    {
+      "uuid": "330ea7e9-b1b7-5f2f-9543-389cc68f19b6",
+      "group": "sysopt_svc",
+      "title": "优化浏览器安全服务，提升下载内容安全性检查能力",
+      "severity": "warn",
+      "impact": "下载的可执行文件不做数字签名校验，容易中招被替换的安装包",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "iesafecheck"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "iesafecheck"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "iesafecheck"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "iesafecheck"
+        }
+      }
+    },
+    {
+      "uuid": "a259eb49-f772-533d-8104-11fe54984e43",
+      "group": "sysopt_svc",
+      "title": "优化游戏模式服务，防止资源自动调配干扰正常使用",
+      "severity": "warn",
+      "impact": "游戏模式会把后台进程优先级压低，切回桌面时卡顿、录屏掉帧",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "gamemodoff"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "gamemodoff"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "gamemodoff"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "gamemodoff"
+        }
+      }
+    },
+    {
+      "uuid": "faff9d47-88d5-5357-aa71-57223d185bdc",
+      "group": "sysopt_sysset",
+      "title": "优化桌面路径设置，修复桌面显示异常",
+      "severity": "warn",
+      "impact": "桌面一片空白、图标全没了——多半是 User Shell Folders 里的 Desktop 指向了一个已经不存在的目录",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "syspath"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "syspath"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "f317cc88-a0db-5e72-9b07-0a8bc9ab67ae",
+      "group": "sysopt_priv",
+      "title": "关闭网站访问记录权限，保护上网隐私。",
+      "severity": "warn",
+      "impact": "允许网站读取你的语言列表并据此生成指纹，用于跨站追踪",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "websitlrec"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "websitlrec"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "websitlrec"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "websitlrec"
+        }
+      }
+    },
+    {
+      "uuid": "1e59d32c-87b5-5a62-bc63-c39ce361968c",
+      "group": "sysopt_priv",
+      "title": "关闭跟踪应用启动，读取应用使用数据等权限，避免隐私泄露",
+      "severity": "warn",
+      "impact": "系统记录你每个程序的启动次数与时长，用于个性化推荐",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "wintrackapp"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "wintrackapp"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "wintrackapp"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "wintrackapp"
+        }
+      }
+    },
+    {
+      "uuid": "b256ca9f-8464-571f-bafe-a1367291a0bf",
+      "group": "sysopt_priv",
+      "title": "关闭广告ID使用权限，避免个性化广告追踪",
+      "severity": "warn",
+      "impact": "应用可通过广告 ID 把你的行为串成一条画像，跨应用投放",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "appadidperm"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "appadidperm"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "appadidperm"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "appadidperm"
+        }
+      }
+    },
+    {
+      "uuid": "8768bc38-f0b6-55a5-8b18-6a9fb2420e42",
+      "group": "sysopt_taskbar",
+      "title": "关闭任务栏天气资讯插件",
+      "severity": "warn",
+      "impact": "任务栏左下角常驻天气+资讯，联网刷新、占内存，误点还会弹新闻流",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "taskbarweather"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "taskbarweather"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "taskbarweather"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "taskbarweather"
+        }
+      }
+    },
+    {
+      "uuid": "a134f055-7228-5b6e-8855-303a480b5cb7",
+      "group": "sysopt_taskbar",
+      "title": "修复任务栏展示异常",
+      "severity": "warn",
+      "impact": "任务栏空白、点开始菜单没反应、托盘图标消失",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixexplorer"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "fixexplorer"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "7cb6adf9-e11a-5702-b180-572fd3c2cb2e",
+      "group": "sysopt_taskbar",
+      "title": "关闭Cortana功能",
+      "severity": "warn",
+      "impact": "任务栏搜索框旁边的小娜图标常驻，后台常驻进程占用内存",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "Cortana"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "Cortana"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "Cortana"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "Cortana"
+        }
+      }
+    },
+    {
+      "uuid": "509fe0d4-36d4-5795-aba8-dc0143d560b5",
+      "group": "sysopt_taskbar",
+      "title": "禁用windows lnk",
+      "severity": "warn",
+      "impact": "任务栏右侧常驻「Windows Ink 工作区」笔图标，鼠标用户完全用不上",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "cwindowlnk"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "cwindowlnk"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "cwindowlnk"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "cwindowlnk"
+        }
+      }
+    },
+    {
+      "uuid": "c0ac157b-33ad-59d6-af69-be13ab0912ea",
+      "group": "sysopt_taskbar",
+      "title": "关闭任务视图图标",
+      "severity": "warn",
+      "impact": "任务栏搜索框旁边的「任务视图」按钮，不常用还占位置",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "taskviewicon"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "taskviewicon"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "taskviewicon"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "taskviewicon"
+        }
+      }
+    },
+    {
+      "uuid": "60670394-957b-51b5-86e5-db63185fecba",
+      "group": "sysopt_taskbar",
+      "title": "优化开始图标位置为左侧",
+      "severity": "warn",
+      "impact": "Win11 默认把开始菜单和任务栏图标居中，很多人更习惯靠左",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "startmenul"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "startmenul"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "startmenul"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "startmenul"
+        }
+      }
+    },
+    {
+      "uuid": "a88671a6-d736-5adf-9e8a-12995c213be4",
+      "group": "sysopt_taskbar",
+      "title": "恢复通知区域所有图标",
+      "severity": "warn",
+      "impact": "托盘图标被折叠进小箭头里，看不到后台程序在干什么",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "notifareaicon"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "notifareaicon"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "notifareaicon"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "notifareaicon"
+        }
+      }
+    },
+    {
+      "uuid": "d108e3ff-d54c-57c6-ac20-628efae1690e",
+      "group": "sysopt_deskicon",
+      "title": "去除桌面图标的“小箭头”标识",
+      "severity": "warn",
+      "impact": "快捷方式左下角的箭头被替换成奇怪图标（第三方美化工具常见后遗症）",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixicon"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "fixicon"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "fixicon"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixicon"
+        }
+      }
+    },
+    {
+      "uuid": "2f7a5205-74ac-50df-af72-60a254ea79fe",
+      "group": "sysopt_deskicon",
+      "title": "去除图标“快捷方式”字样",
+      "severity": "warn",
+      "impact": "每个快捷方式名字后面都拖着「- 快捷方式」，桌面一片乱",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixicontxt"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "fixicontxt"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "fixicontxt"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixicontxt"
+        }
+      }
+    },
+    {
+      "uuid": "327ecaf4-7c0f-580f-aeee-39ee9e2add05",
+      "group": "sysopt_deskicon",
+      "title": "修复“此电脑”图标异常",
+      "severity": "warn",
+      "impact": "桌面上找不到「此电脑」，想进 C 盘得先开资源管理器",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "mycomputer"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "mycomputer"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "mycomputer"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "mycomputer"
+        }
+      }
+    },
+    {
+      "uuid": "742a1e38-d5cc-5e37-8ba6-b6f859692c22",
+      "group": "sysopt_deskicon",
+      "title": "修复“网络”图标异常",
+      "severity": "warn",
+      "impact": "桌面上没有「网络」图标，改 IP、看共享都得多点几层",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "connectnet"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "connectnet"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "connectnet"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "connectnet"
+        }
+      }
+    },
+    {
+      "uuid": "a345f53c-57e2-5ee9-bfb7-822fa3f713a6",
+      "group": "sysopt_deskicon",
+      "title": "修复“回收站”图标异常",
+      "severity": "warn",
+      "impact": "桌面没有回收站，删错文件无处可找",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "trashcanicon"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "trashcanicon"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "trashcanicon"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "trashcanicon"
+        }
+      }
+    },
+    {
+      "uuid": "df15133a-06a1-5f78-bb1c-22a5ad3ce616",
+      "group": "sysopt_deskicon",
+      "title": "恢复被隐藏的桌面图标",
+      "severity": "warn",
+      "impact": "桌面图标整体不见（右键→查看→显示桌面图标 被关掉）",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixdskicnhide"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "fixdskicnhide"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "fixdskicnhide"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "fixdskicnhide"
+        }
+      }
+    },
+    {
+      "uuid": "1716b400-85aa-5d93-b1d9-1821cf783a06",
+      "group": "sysopt_menu",
+      "title": "优化win11开始菜单设置，默认显示所有应用",
+      "severity": "warn",
+      "impact": "Win11 开始菜单默认只显示固定磁贴，找程序每次都要多点一下「所有应用」",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "startmenutype"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "startmenutype"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "startmenutype"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "startmenutype"
+        }
+      }
+    },
+    {
+      "uuid": "c9aed3e1-a1e2-553b-8d34-2c3426efd923",
+      "group": "sysopt_menu",
+      "title": "切换右键菜单为 Win10 全展开样式，提升操作效率",
+      "severity": "warn",
+      "impact": "Win11 右键菜单把「刷新」「新建」都折叠进「显示更多选项」，每次多点一步",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "rkeymenu"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "rkeymenu"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "2334645d-513e-5d17-9058-ff704728c019",
+      "group": "sysopt_explorer",
+      "title": "开启文件预览",
+      "severity": "warn",
+      "impact": "资源管理器按 Alt+P 出不来预览窗格，看图看文档要先双击打开",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "explorerview"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "explorerview"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "explorerview"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "explorerview"
+        }
+      }
+    },
+    {
+      "uuid": "c8ab5703-2874-5d87-bac1-1f3c8250c6cb",
+      "group": "sysopt_explorer",
+      "title": "显示被隐藏的文件或文件夹",
+      "severity": "warn",
+      "impact": "病毒常把自己设成隐藏属性，不显示隐藏文件根本看不见它",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "showhidefolder"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "showhidefolder"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "showhidefolder"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "showhidefolder"
+        }
+      }
+    },
+    {
+      "uuid": "6639c8a2-9da4-562e-96fd-5bf3f8c0ca4d",
+      "group": "sysopt_explorer",
+      "title": "显示文件扩展名",
+      "severity": "warn",
+      "impact": "看不到 .exe/.scr 后缀，`照片.jpg.exe` 伪装成图片点开就中招",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "HideFileExt"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "HideFileExt"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "HideFileExt"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "HideFileExt"
+        }
+      }
+    },
+    {
+      "uuid": "a26efb35-a7e0-5c9c-a99f-9193ec60ec85",
+      "group": "sysopt_udisk",
+      "title": "关闭U盘自动播放",
+      "severity": "warn",
+      "impact": "插入 U 盘就自动运行 autorun 程序，是 U 盘病毒最经典的入口",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "56fix"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "56fix"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "56fix"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "56fix"
+        }
+      }
+    },
+    {
+      "uuid": "8436fe6e-698a-57ae-8e7b-21775f3c55b9",
+      "group": "slow_boot",
+      "title": "限制应用定位权限，减少后台占用",
+      "severity": "warn",
+      "impact": "应用后台持续定位，耗电且暴露行踪",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "ConsentStore"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "ConsentStore"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "ConsentStore"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "ConsentStore"
+        }
+      }
+    },
+    {
+      "uuid": "4eabc793-39ad-5f89-9982-e3ea0be966ec",
+      "group": "slow_boot",
+      "title": "优化错误报告机制，降低系统资源占用",
+      "severity": "warn",
+      "impact": "程序崩溃时后台打包转储并联网上报，卡顿且占带宽",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "doreport"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "doreport"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "doreport"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "doreport"
+        }
+      }
+    },
+    {
+      "uuid": "fa4a2673-80e9-5d53-9ce3-4a6516f93d49",
+      "group": "slow_boot",
+      "title": "优化磁盘读写方式，提升磁盘性能",
+      "severity": "warn",
+      "impact": "系统频繁检查低磁盘空间，机械盘上能感到明显卡顿",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "nolowdiskspacechecks"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "nolowdiskspacechecks"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "nolowdiskspacechecks"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "nolowdiskspacechecks"
+        }
+      }
+    },
+    {
+      "uuid": "262fdf04-da70-5fa5-b058-8443dea9c17d",
+      "group": "slow_boot",
+      "title": "优化桌面效果，切换窗口更顺畅",
+      "severity": "warn",
+      "impact": "鼠标悬停任务栏要等半秒才出预览，切换窗口不跟手",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "desktoplivepreview"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "desktoplivepreview"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "desktoplivepreview"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "desktoplivepreview"
+        }
+      }
+    },
+    {
+      "uuid": "b7b639cc-c462-50f0-becf-4fdde4071062",
+      "group": "slow_boot",
+      "title": "优化资源管理器崩溃重启机制，提升系统稳定性",
+      "severity": "warn",
+      "impact": "资源管理器崩了要手动重启，任务栏和桌面一起消失",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "autorestartshell"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "autorestartshell"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "autorestartshell"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "autorestartshell"
+        }
+      }
+    },
+    {
+      "uuid": "6afcaeef-3df6-5980-a81f-2c03f41e5462",
+      "group": "slow_boot",
+      "title": "优化注册表访问，提升系统安全性",
+      "severity": "warn",
+      "impact": "远程注册表服务对外暴露，局域网内可被读取敏感配置",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "remoteregaccess"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "remoteregaccess"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "remoteregaccess"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "remoteregaccess"
+        }
+      }
+    },
+    {
+      "uuid": "fae58d1f-1d82-5c16-a0d4-e46712eae895",
+      "group": "slow_boot",
+      "title": "关闭电脑调试功能，减少系统资源消耗",
+      "severity": "warn",
+      "impact": "程序崩溃后自动挂调试器，进程迟迟不退出，像卡死",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "aedebugauto"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "aedebugauto"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "aedebugauto"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "aedebugauto"
+        }
+      }
+    },
+    {
+      "uuid": "bdcd6963-5636-5881-8dd9-db63a4c5e30f",
+      "group": "slow_boot",
+      "title": "禁止系统应用后台联网，降低后台资源占用",
+      "severity": "warn",
+      "impact": "商店应用在后台常驻联网，开机后风扇一直转",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "closeglobaluserdisabled"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "closeglobaluserdisabled"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "closeglobaluserdisabled"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "closeglobaluserdisabled"
+        }
+      }
+    },
+    {
+      "uuid": "ce45599d-04f4-51e1-bfd3-c727560e5ccf",
+      "group": "slow_boot",
+      "title": "启用磁盘整理程序，加快开机及文件加载速度 Dfrg",
+      "severity": "warn",
+      "impact": "开机预读（BootOptimizeFunction）被关后，开机变慢、常用程序首次启动迟滞",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "openBootOptimizeFunction"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "openBootOptimizeFunction"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "openBootOptimizeFunction"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "openBootOptimizeFunction"
+        }
+      }
+    },
+    {
+      "uuid": "3c716414-ca0a-53ab-b21a-593b4fb81588",
+      "group": "slow_boot",
+      "title": "优化文件系统结构，提升数据读取效率",
+      "severity": "warn",
+      "impact": "小文件密集读写场景（编译、解压）明显偏慢",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "optimizationFileSystem"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "optimizationFileSystem"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "optimizationFileSystem"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "optimizationFileSystem"
+        }
+      }
+    },
+    {
+      "uuid": "30d3696b-0977-56fa-b12b-9a8a1b75a715",
+      "group": "slow_boot",
+      "title": "调整系统资源分配策略，保障程序流畅运行",
+      "severity": "warn",
+      "impact": "前台程序与后台服务争抢 CPU 时间片，操作发涩",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "cpufenpeiziyuan"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "cpufenpeiziyuan"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "cpufenpeiziyuan"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "cpufenpeiziyuan"
+        }
+      }
+    },
+    {
+      "uuid": "b9268684-6ad8-5835-a55a-9a2357aebbb2",
+      "group": "slow_boot",
+      "title": "优化系统配置，释放更多可用内存",
+      "severity": "warn",
+      "impact": "页锁定内存上限设置不当，大程序抢不到内存",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "iopagelocklimit"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "iopagelocklimit"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "iopagelocklimit"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "iopagelocklimit"
+        }
+      }
+    },
+    {
+      "uuid": "e17d6ce0-1211-5ae5-8909-bccb9c5621da",
+      "group": "slow_boot",
+      "title": "开启最佳响应模式，全面提升系统运行效率",
+      "severity": "warn",
+      "impact": "窗口动画、阴影等视觉效果占用 GPU 与 CPU，低配机明显掉帧",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "Tunedoptimalperformance"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "Tunedoptimalperformance"
+      ],
+      "needs_admin": false,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "Tunedoptimalperformance"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "Tunedoptimalperformance"
+        }
+      }
+    },
+    {
+      "uuid": "a023a107-baea-5a32-9bd4-a53b8b17f195",
+      "group": "slow_boot",
+      "title": "系统关键网络服务运行异常",
+      "severity": "warn",
+      "impact": "网络图标转圈、连上网但打不开网页、VPN 连不上",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "Detectingnetworkservice"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "Detectingnetworkservice"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "Detectingnetworkservice"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "Detectingnetworkservice"
+        }
+      }
+    },
+    {
+      "uuid": "e2948032-89b0-5a63-8ff1-e19c38ef71be",
+      "group": "slow_boot",
+      "title": "NVIDIA 桌面右键面板可能导致桌面卡死，如出现卡死建议优化",
+      "severity": "warn",
+      "impact": "右键桌面要等 2-3 秒才出菜单，严重时桌面直接无响应",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "NVIDIADesktopRightClickOptimisation"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "NVIDIADesktopRightClickOptimisation"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true
+    },
+    {
+      "uuid": "942ea100-013f-52e3-a6a3-db19eb0004ee",
+      "group": "slow_boot",
+      "title": "优化向日葵远程服务延迟启动",
+      "severity": "warn",
+      "impact": "向日葵开机自启抢占启动时间，且常驻监听端口",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "SunloginService"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "SunloginService"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "SunloginService"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "SunloginService"
+        }
+      }
+    },
+    {
+      "uuid": "df061a2f-d9e6-5ed5-a4fb-d0ef11847086",
+      "group": "slow_boot",
+      "title": "关闭部分系统常驻进程，降低 CPU 使用",
+      "severity": "warn",
+      "impact": "Edge 关掉窗口后仍在后台常驻（Startup Boost），白白吃掉几百 MB 内存",
+      "check": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "edgebrowserresidentclose"
+        }
+      },
+      "tags": [
+        "sysopt",
+        "edgebrowserresidentclose"
+      ],
+      "needs_admin": true,
+      "needs_reboot": false,
+      "optional": true,
+      "fix": {
+        "api": "sysopt.fix",
+        "args": {
+          "item": "edgebrowserresidentclose"
+        }
+      },
+      "verify": {
+        "api": "sysopt.probe",
+        "args": {
+          "item": "edgebrowserresidentclose"
+        }
+      }
+    }
+  ]
+}
