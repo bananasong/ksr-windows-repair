@@ -1,0 +1,186 @@
+{
+  "vc2005-x86": {
+    "url": "https://download.microsoft.com/download/8/B/4/8B42259F-5D70-43F4-AC2E-4B208FD8D66A/vcredist_x86.EXE",
+    "sha256": "8648c5fc29c44b9112fe52f9a33f80e7fc42d10f3b5b42b2121542a13e44adfd",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2005/x86/8.0.61001/Microsoft.VCRedist.2005.x86.installer.yaml",
+    "title": "VC++ 2005 CRT / MFC / ATL (x86)",
+    "kind": "vc",
+    "gen": 8,
+    "arch": "x86",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/q"
+    ]
+  },
+  "vc2005-x64": {
+    "url": "https://download.microsoft.com/download/8/B/4/8B42259F-5D70-43F4-AC2E-4B208FD8D66A/vcredist_x64.EXE",
+    "sha256": "4487570bd86e2e1aac29db2a1d0a91eb63361fcaac570808eb327cd4e0e2240d",
+    "manifest": "https://www.microsoft.com/en-us/download/details.aspx?id=26347",
+    "title": "VC++ 2005 CRT / MFC / ATL (x64)",
+    "kind": "vc",
+    "gen": 8,
+    "arch": "x64",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/q"
+    ]
+  },
+  "vc2008-x86": {
+    "url": "https://download.microsoft.com/download/5/D/8/5D8C65CB-C849-4025-8E95-C3966CAFD8AE/vcredist_x86.exe",
+    "sha256": "8742bcbf24ef328a72d2a27b693cc7071e38d3bb4b9b44dec42aa3d2c8d61d92",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2008/x86/9.0.30729.6161/Microsoft.VCRedist.2008.x86.installer.yaml",
+    "title": "VC++ 2008 CRT / MFC / ATL (x86)",
+    "kind": "vc",
+    "gen": 9,
+    "arch": "x86",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/qn",
+      "/norestart"
+    ]
+  },
+  "vc2008-x64": {
+    "url": "https://download.microsoft.com/download/5/D/8/5D8C65CB-C849-4025-8E95-C3966CAFD8AE/vcredist_x64.exe",
+    "sha256": "c5e273a4a16ab4d5471e91c7477719a2f45ddadb76c7f98a38fa5074a6838654",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2008/x64/9.0.30729.6161/Microsoft.VCRedist.2008.x64.installer.yaml",
+    "title": "VC++ 2008 CRT / MFC / ATL (x64)",
+    "kind": "vc",
+    "gen": 9,
+    "arch": "x64",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/qn",
+      "/norestart"
+    ]
+  },
+  "vc2010-x86": {
+    "url": "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe",
+    "sha256": "99dce3c841cc6028560830f7866c9ce2928c98cf3256892ef8e6cf755147b0d8",
+    "manifest": "https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist",
+    "title": "VC++ 2010 CRT / MFC / ATL (x86)",
+    "kind": "vc",
+    "gen": 10,
+    "arch": "x86",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/install",
+      "/quiet",
+      "/norestart"
+    ]
+  },
+  "vc2010-x64": {
+    "url": "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe",
+    "sha256": "f3b7a76d84d23f91957aa18456a14b4e90609e4ce8194c5653384ed38dada6f3",
+    "manifest": "https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist",
+    "title": "VC++ 2010 CRT / MFC / ATL (x64)",
+    "kind": "vc",
+    "gen": 10,
+    "arch": "x64",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/install",
+      "/quiet",
+      "/norestart"
+    ]
+  },
+  "vc2012-x86": {
+    "url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe",
+    "sha256": "b924ad8062eaf4e70437c8be50fa612162795ff0839479546ce907ffa8d6e386",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2012/x86/11.0.61030.0/Microsoft.VCRedist.2012.x86.installer.yaml",
+    "title": "VC++ 2012 CRT / MFC / ATL (x86)",
+    "kind": "vc",
+    "gen": 11,
+    "arch": "x86",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/install",
+      "/quiet",
+      "/norestart"
+    ]
+  },
+  "vc2012-x64": {
+    "url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe",
+    "sha256": "681be3e5ba9fd3da02c09d7e565adfa078640ed66a0d58583efad2c1e3cc4064",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2012/x64/11.0.61030.0/Microsoft.VCRedist.2012.x64.installer.yaml",
+    "title": "VC++ 2012 CRT / MFC / ATL (x64)",
+    "kind": "vc",
+    "gen": 11,
+    "arch": "x64",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/install",
+      "/quiet",
+      "/norestart"
+    ]
+  },
+  "vc2013-x86": {
+    "url": "https://download.visualstudio.microsoft.com/download/pr/10912113/5da66ddebb0ad32ebd4b922fd82e8e25/vcredist_x86.exe",
+    "sha256": "53b605d1100ab0a88b867447bbf9274b5938125024ba01f5105a9e178a3dcdbd",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2013/x86/12.0.40664.0/Microsoft.VCRedist.2013.x86.installer.yaml",
+    "title": "VC++ 2013 CRT / MFC (x86)",
+    "kind": "vc",
+    "gen": 12,
+    "arch": "x86",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/install",
+      "/quiet",
+      "/norestart"
+    ]
+  },
+  "vc2013-x64": {
+    "url": "https://download.visualstudio.microsoft.com/download/pr/10912041/cee5d6bca2ddbcd039da727bf4acb48a/vcredist_x64.exe",
+    "sha256": "a4bba7701e355ae29c403431f871a537897c363e215cafe706615e270984f17c",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/m/Microsoft/VCRedist/2013/x64/12.0.40664.0/Microsoft.VCRedist.2013.x64.installer.yaml",
+    "title": "VC++ 2013 CRT / MFC (x64)",
+    "kind": "vc",
+    "gen": 12,
+    "arch": "x64",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/install",
+      "/quiet",
+      "/norestart"
+    ]
+  },
+  "openal": {
+    "url": "https://openal.org/downloads/oalinst.zip",
+    "sha256": "d165bcb7628fd950d14847585468cc11943b2a1da92a59a839d397c68f9d4b06",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/c/CreativeTechnology/OpenAL/1.1/CreativeTechnology.OpenAL.installer.yaml",
+    "title": "OpenAL 游戏音频运行库",
+    "kind": "openal",
+    "arch": "both",
+    "publisher": "Creative Labs Inc",
+    "args": [
+      "/s"
+    ],
+    "member": "oalinst.exe",
+    "member_sha256": "b8f39714d41e009f75efb183c37100f2cbabb71784bbd243be881ac5b42d86fd"
+  },
+  "physx": {
+    "url": "https://us.download.nvidia.com/Windows/9.23.1019/PhysX_9.23.1019_SystemSoftware.exe",
+    "sha256": "9b42b84e881769d681e09f62a1b51532616b2e6a2d5d99d0ccae6eb5fbbc208c",
+    "manifest": "https://raw.githubusercontent.com/microsoft/winget-pkgs/master/manifests/n/Nvidia/PhysX/9.23.1019/Nvidia.PhysX.installer.yaml",
+    "title": "NVIDIA PhysX 游戏物理运行库",
+    "kind": "physx",
+    "arch": "x86",
+    "publisher": "NVIDIA Corporation",
+    "args": [
+      "/s"
+    ]
+  },
+  "msxml4": {
+    "title": "MSXML 4.0 SP3 安全更新 (x86)",
+    "kind": "msxml4",
+    "arch": "x86",
+    "url": "https://download.microsoft.com/download/a/7/6/a7611ffc-4f68-4fb1-a931-95882ec013fc/msxml4-KB2758694-enu.exe",
+    "sha256": "52d80e6e7ba94437199a2e6b51f00c7f483269c02bedec2253c4602f5209b31b",
+    "publisher": "Microsoft Corporation",
+    "args": [
+      "/quiet",
+      "/qn",
+      "/norestart"
+    ],
+    "manifest": "https://www.microsoft.com/en-us/download/details.aspx?id=36292"
+  }
+}

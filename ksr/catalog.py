@@ -140,23 +140,20 @@ CATALOG = [
     },
     {
         "id": "vc_legacy",
-        "title": "VC++ 2002-2013 其余运行库",
+        "title": "VC++ 2002/2003 应用专用依赖",
         "tier": COMPAT,
-        "purpose": "更早期的 C 运行库，只在个别古董软件上才会用到",
+        "purpose": "msvcr70/71 等需由原应用安装包提供，2008 以后的运行库无法补齐；正常系统可以没有",
         "fix": _MANUAL,
-        "files": (_seq("msvcr", [70, 71, 100, 110, 120])
-                  + _seq("msvcp", [70, 71, 100, 110, 120])),
+        "files": ["msvcr70.dll", "msvcr71.dll", "msvcp70.dll", "msvcp71.dll"],
     },
     {
         "id": "mfc_atl",
-        "title": "MFC / ATL 框架库",
+        "title": "MFC / ATL 7.1 应用专用依赖",
         "tier": COMPAT,
-        "purpose": "大量国产老软件与行业软件基于 MFC 开发",
+        "purpose": "旧版行业软件需由原应用安装包提供 MFC/ATL 7.1；新版 MFC 安装器不覆盖此版本",
         "fix": _VC_REDIST,
         # MFC 每版都有 ANSI（mfcXX.dll）与 Unicode（mfcXXu.dll）两套，缺一都会起不来
-        "files": [f"mfc{v}{s}.dll" for v in (71, 80, 90, 100, 110, 120, 140)
-                  for s in ("", "u")]
-                 + [f"atl{v}.dll" for v in (71, 80, 90, 100, 110, 140)],
+        "files": ["mfc71.dll", "mfc71u.dll", "atl71.dll"],
     },
     {
         "id": "msxml_core",

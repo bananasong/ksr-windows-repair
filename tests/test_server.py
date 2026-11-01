@@ -101,6 +101,17 @@ class ServerTests(unittest.TestCase):
             self.assertEqual(error.exception.code, expected)
             error.exception.close()
 
+    def test_startup_management_requires_authentication_and_confirmation(self):
+        from ksr import startup
+        with patch.object(startup, 'disable') as disable:
+            for headers, body, code in [({}, {'confirm':True}, 403),
+                    ({'X-KSR-Token':self.state.token}, {}, 400)]:
+                with self.assertRaises(urllib.error.HTTPError) as error:
+                    self.request('/api/startup/disable',body,headers)
+                self.assertEqual(error.exception.code,code)
+                error.exception.close()
+            disable.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

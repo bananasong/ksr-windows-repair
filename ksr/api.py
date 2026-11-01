@@ -604,34 +604,13 @@ def _assoc_lnk(a):
 
 @check("startup.count")
 def _startup_count(a):
-    keys = [
-        ("HKCU", r"Software\Microsoft\Windows\CurrentVersion\Run"),
-        ("HKLM", r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"),
-        ("HKLM", r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run"),
-    ]
-    total = 0
-    names = []
-    for hive, key in keys:
-        for sub in subkeys(hive, key):
-            pass
-        try:
-            with winreg.OpenKey(HIVES[hive], key, 0,
-                                winreg.KEY_READ | winreg.KEY_WOW64_64KEY) as k:
-                i = 0
-                while True:
-                    try:
-                        n, v, _ = winreg.EnumValue(k, i)
-                        total += 1
-                        names.append(n)
-                        i += 1
-                    except OSError:
-                        break
-        except OSError:
-            pass
+    from .startup import items
+    enabled = [row for row in items() if row['enabled']]
+    total = len(enabled)
     if total > a["max"]:
-        return bad(f"开机启动项 {total} 个（阈值 {a['max']}），会拖慢开机速度",
-                   count=total, items=names[:12])
-    return ok(f"开机启动项 {total} 个，未超阈值")
+        return bad(f"已启用的 Run 启动项 {total} 个（提示阈值 {a['max']}）；可选择停用非必需程序，数量不代表实际开机耗时",
+                   severity='info', count=total, action='startup_manager')
+    return ok(f"已启用的 Run 启动项 {total} 个，未超提示阈值；未统计计划任务、服务和启动文件夹")
 
 
 @check("wmi.repo")
@@ -936,14 +915,16 @@ def _find_dll(name: str) -> str | None:
     return None
 
 
-def _vc80_sxs(arch="x86"):
-    """Inventory a complete VC80 CRT assembly; not an app activation/load test."""
+def _vc80_sxs(arch="x86", gen=8, assembly="CRT", files=None):
+    """Inventory a VC80/VC90 SxS assembly; not an app activation/load test."""
+    label = f"VC++ {2005 if gen == 8 else 2008} {assembly}"
+    cat_id = f"vc{gen}0"
     if arch not in {"x86", "x64"}:
         return bad(f"不支持的 VC++ 2005 架构：{arch}")
     processor = "amd64" if arch == "x64" else "x86"
     root = Path(w.system_root()) / "WinSxS"
-    pattern = re.compile(rf"{processor}_microsoft\.vc80\.crt_1fc8b3b9a1e18e3b_"
-                         r"(8\.\d+\.\d+\.\d+)_none_[a-z0-9]+", re.I)
+    pattern = re.compile(rf"{processor}_microsoft\.vc{gen}0\.{assembly}_1fc8b3b9a1e18e3b_"
+                         rf"({gen}\.\d+\.\d+\.\d+)_none_[a-z0-9]+", re.I)
     assemblies = []
     try:
         folders = list(root.iterdir()) if root.exists() else []
@@ -958,23 +939,23 @@ def _vc80_sxs(arch="x86"):
                 continue
             identity = document.getroot().find("{urn:schemas-microsoft-com:asm.v1}assemblyIdentity")
             if identity is None or any(identity.get(key, "").lower() != value.lower() for key, value in {
-                "name": "Microsoft.VC80.CRT", "type": "win32", "processorArchitecture": processor,
+                "name": f"Microsoft.VC{gen}0.{assembly}", "type": "win32", "processorArchitecture": processor,
                 "publicKeyToken": "1fc8b3b9a1e18e3b", "version": match.group(1),
             }.items()):
                 continue
-            payloads = [w.pe_info(str(folder / name)) for name in catalog.BY_ID['vc80']['files']]
+            payloads = [w.pe_info(str(folder / name)) for name in (files or catalog.BY_ID['vc80']['files'])]
             if all(info and info["arch"] == arch for info in payloads):
                 assemblies.append({"version": match.group(1), "directory": str(folder), "manifest": str(manifest)})
     except OSError as exc:
-        return {"ok": False, "status": "unavailable", "detail": f"无法读取 VC++ 2005 WinSxS 清单：{exc}",
-                "data": {"cat": "vc80", "arch": arch}}
+        return {"ok": False, "status": "unavailable", "detail": f"无法读取 {label} WinSxS 清单：{exc}",
+                "data": {"cat": cat_id, "arch": arch}}
     if assemblies:
         assemblies.sort(key=lambda row: tuple(map(int, row['version'].split('.'))), reverse=True)
-        return ok(f"VC++ 2005 ({arch}) WinSxS 清单及 CRT 文件齐备，版本 {assemblies[0]['version']}",
-                  cat="vc80", arch=arch, assemblies=assemblies,
+        return ok(f"{label} ({arch}) WinSxS 清单及文件齐备，版本 {assemblies[0]['version']}",
+                  cat=cat_id, arch=arch, assemblies=assemblies,
                   verification="assembly_inventory; not application activation")
-    return bad(f"未找到完整的 VC++ 2005 ({arch}) WinSxS CRT 程序集（兼容组件，按需安装）",
-               cat="vc80", arch=arch, severity="info", tier=catalog.COMPAT)
+    return bad(f"未找到完整的 {label} ({arch}) WinSxS 程序集（兼容组件，按需安装）",
+               cat=cat_id, arch=arch, severity="info", tier=catalog.COMPAT)
 
 
 @check("dll.catalog")
@@ -992,7 +973,7 @@ def _dll_catalog(a):
     if not missing:
         return ok(f"{len(files)} 个文件齐备", total=len(files), cat=cat_id)
     sev = "error" if tier == catalog.CORE else "info"
-    head = "必需文件缺失" if sev == "error" else "兼容版本未安装"
+    head = "必需文件缺失" if sev == "error" else "未在全局系统目录检测到兼容组件（应用可能自带）"
     tail = ""
     if len(missing) > 6:
         tail = f" 等 {len(missing)} 个"
@@ -1093,10 +1074,11 @@ def _download(url: str, dst: str, timeout: int = 300) -> tuple[bool, str]:
     return download(url, dst, timeout)
 
 
-def _run_installer(path: str, args: list[str], timeout: int = 900) -> FixResult:
+def _run_installer(path: str, args: list[str], timeout: int = 900, publisher="Microsoft Corporation") -> FixResult:
     """静默运行安装包，保留退出码与动态重启要求。"""
-    from .downloads import verify_microsoft
-    verified, message = verify_microsoft(path)
+    from .downloads import verify_microsoft, verify_publisher
+    verified, message = (verify_microsoft(path) if publisher == "Microsoft Corporation"
+                         else verify_publisher(path, publisher))
     if not verified:
         return FixResult(False, message)
     try:
@@ -1173,6 +1155,32 @@ def _f_vcredist_install(a):
             exit_codes.extend(result.exit_codes)
             parts.append(f"{ar} {result.message}")
     return FixResult(all_ok, "；".join(parts), needs_reboot, tuple(exit_codes))
+
+
+@check("component.probe")
+def _component_probe(a):
+    from .components import probe_package
+    return probe_package(a['package'])
+
+
+@fix("component.install")
+def _component_install(a):
+    from .components import install_package
+    return install_package(a['package'])
+
+
+@check("component.mfc14")
+def _component_mfc14(a):
+    from .components import system_directory
+    arch = a['arch']
+    missing = []
+    for name in ['mfc140.dll', 'mfc140u.dll']:
+        info = w.pe_info(str(system_directory(arch) / name))
+        if not info or info['arch'] != arch: missing.append(name)
+    if missing:
+        return bad('MFC v14 兼容组件缺少：' + '、'.join(missing), severity='info', tier='compat', missing=missing,
+                   purpose='通过微软 VC++ v14 安装器安装，按所需软件架构选择')
+    return ok(f'MFC v14 ({arch}) 文件架构检查通过')
 
 
 @fix("directx.install")

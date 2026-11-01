@@ -11,6 +11,7 @@ import os
 import uuid as uuidlib
 
 from . import catalog
+from .components import PACKAGES
 from . import pack as packmod
 
 NS = uuidlib.UUID("6f3a1c2e-0000-4a00-9000-000000000001")
@@ -342,6 +343,10 @@ def build() -> dict:
     for row in list(RULES) + _sysopt_rows():
         (group, title, sev, impact, capi, cargs, fapi, fargs,
          admin, reboot, tags) = row[:11]
+        if ((capi == 'dll.catalog' and cargs.get('cat') in {'vc90', 'game_extra', 'msxml_legacy'})
+                or (capi == 'vcredist.probe' and cargs.get('major') in {10, 11, 12})):
+            # Replaced by separate, architecture-matched component packages below.
+            continue
         if capi == "files.present":
             cargs = dict(cargs)
             cargs["names"] = [name for name in cargs["names"] if not name.lower().startswith(("api-", "ext-"))]
@@ -374,6 +379,25 @@ def build() -> dict:
             rec["fix"] = {"api": fapi, "args": fargs}
             rec["verify"] = {"api": capi, "args": cargs}
         scripts.append(rec)
+    for identifier, package in PACKAGES.items():
+        group = 'game' if package['kind'] in {'openal', 'physx'} else 'runtime'
+        args = {'package': identifier}
+        title = package['title']
+        scripts.append({'uuid': str(uuidlib.uuid5(NS, 'component/' + identifier)), 'group': group,
+                        'title': title, 'severity': 'info', 'optional': True,
+                        'impact': '按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检',
+                        'check': {'api': 'component.probe', 'args': args},
+                        'verify': {'api': 'component.probe', 'args': args},
+                        'fix': {'api': 'component.install', 'args': args}, 'needs_admin': True,
+                        'tags': ['component', identifier]})
+    for arch in ['x86', 'x64']:
+        scripts.append({'uuid': str(uuidlib.uuid5(NS, 'component/mfc14/' + arch)), 'group': 'runtime',
+                        'title': f'MFC v14 框架库 ({arch})', 'severity': 'info', 'optional': True,
+                        'impact': '用于依赖 MFC 2015 及以后版本的应用，通过微软 VC++ v14 安装器补齐',
+                        'check': {'api': 'component.mfc14', 'args': {'arch': arch}},
+                        'verify': {'api': 'component.mfc14', 'args': {'arch': arch}},
+                        'fix': {'api': 'vcredist.install', 'args': {'gen': 14, 'arch': arch}},
+                        'needs_admin': True, 'tags': ['component', 'mfc14']})
     return {"schema": "ksr.rulepack/1", "groups": GROUPS, "scripts": scripts}
 
 

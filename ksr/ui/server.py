@@ -117,6 +117,16 @@ class Handler(BaseHTTPRequestHandler):
                 and (not origin or origin == "http://" + expected)):
             self.state.touch_client()
             return True
+        # Consume a bounded rejected POST body before closing the socket. Windows
+        # can otherwise reset the connection and discard the intended 403 reply.
+        if self.command == 'POST':
+            try:
+                length = int(self.headers.get('Content-Length') or 0)
+                if 0 < length <= 65536:
+                    self.connection.settimeout(2)
+                    self.rfile.read(length)
+            except (ValueError, OSError):
+                pass
         self._json({"error": "token 无效"}, 403)
         return False
 
@@ -153,6 +163,13 @@ class Handler(BaseHTTPRequestHandler):
                 return
             from ..journal import history
             return self._json(history())
+        if path == '/api/startup':
+            if not self._authed(): return
+            from .. import startup
+            try:
+                return self._json({'items': startup.items()})
+            except OSError as exc:
+                return self._json({'error': '无法读取启动项：' + str(exc)}, 400)
         if path == "/api/scan":
             if not self._authed():
                 return
@@ -162,6 +179,17 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         u = urlparse(self.path)
+        if u.path == '/api/startup/disable':
+            if not self._authed(): return
+            from .. import startup
+            body = self._body()
+            try:
+                if not isinstance(body, dict): raise ValueError('请求格式错误')
+                if body.get('confirm') is not True: raise ValueError('请先选择并确认停用的启动项')
+                with self.state.lock:
+                    return self._json(startup.disable(body.get('items')))
+            except (ValueError, OSError, TypeError) as exc:
+                return self._json({'error': str(exc)}, 400)
         if u.path in ("/api/diagnose", "/api/undo", "/api/dotnet/plan", "/api/dotnet/install"):
             if not self._authed():
                 return

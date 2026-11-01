@@ -22,9 +22,12 @@ try {
     New-Item -ItemType Directory -Path (Join-Path $guiDirectory 'docs') -Force | Out-Null
     Copy-Item -LiteralPath docs/LIMITATIONS.md -Destination (Join-Path $guiDirectory 'docs/LIMITATIONS.md')
     Copy-Item -LiteralPath docs/PROVENANCE.md -Destination (Join-Path $guiDirectory 'docs/PROVENANCE.md')
+    Copy-Item -LiteralPath docs/REPLACEMENT_MATRIX.md -Destination (Join-Path $guiDirectory 'docs/REPLACEMENT_MATRIX.md')
     python tools/collect_licenses.py $guiDirectory
     if ($LASTEXITCODE -ne 0) { throw 'License collection failed' }
     $archivePath = "dist/KSR-$buildVersion-windows-x64.zip"
     Compress-Archive -Path $guiDirectory -DestinationPath $archivePath -Force
+    python tools/verify_portable.py $archivePath $buildVersion
+    if ($LASTEXITCODE -ne 0) { throw 'Extracted portable validation failed' }
     Get-FileHash -Algorithm SHA256 $archivePath
 } finally { Pop-Location }

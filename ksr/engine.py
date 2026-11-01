@@ -346,7 +346,7 @@ class Engine:
                         f.fix_message += "（复检未完成，尚未验证）"
                     elif not v.get("ok"):
                         f.fix_ok = False
-                        f.fix_message += "（修复后复检未通过）"
+                        f.fix_message += "（修复后复检未通过：" + (f.verify_detail or "检测条件仍未满足") + "）"
                         f.fix_status = "failed"
                     elif (v.get("data") or {}).get("skip"):
                         f.fix_ok = False

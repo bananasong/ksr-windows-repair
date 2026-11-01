@@ -9,7 +9,8 @@ import urllib.parse
 import urllib.request
 
 HOSTS = {"aka.ms", "download.microsoft.com", "download.visualstudio.microsoft.com",
-         "builds.dotnet.microsoft.com", "dotnetcli.blob.core.windows.net"}
+         "builds.dotnet.microsoft.com", "dotnetcli.blob.core.windows.net",
+         "openal.org", "us.download.nvidia.com"}
 
 
 def allowed_url(url):
@@ -30,7 +31,7 @@ def download(url, destination, timeout=300, expected_sha256=None, expected_sha51
     part = target.with_name(target.name + ".part")
     try:
         if not allowed_url(url):
-            raise ValueError("只接受配置中的微软官方 HTTPS 来源")
+            raise ValueError("只接受配置中的官方 HTTPS 来源")
         digest = hashlib.sha256()
         sha512 = hashlib.sha512()
         size = 0
@@ -59,7 +60,13 @@ def download(url, destination, timeout=300, expected_sha256=None, expected_sha51
 
 
 def verify_microsoft(path):
+    return verify_publisher(path, "Microsoft Corporation")
+
+
+def verify_publisher(path, expected_publisher):
     """Use Windows' signature validation; fail closed on invalid/unknown publisher."""
+    if expected_publisher not in {"Microsoft Corporation", "Creative Labs Inc", "NVIDIA Corporation"}:
+        raise ValueError("发布者未列入支持清单")
     target = Path(path).resolve(strict=True)
     shell = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
     script = ("$ErrorActionPreference='Stop'; "
@@ -76,9 +83,9 @@ def verify_microsoft(path):
             return False, "Windows 签名校验未完成"
         signature = json.loads(result.stdout.decode("utf-8-sig"))
         import re
-        publisher = bool(re.search(r"(?:^|,\s*)O=Microsoft Corporation(?:,|$)", signature.get("subject", "")))
+        publisher = bool(re.search(r"(?:^|,\s*)O=" + re.escape(expected_publisher) + r"(?:,|$)", signature.get("subject", "")))
         if signature.get("status") != "Valid" or not publisher:
-            return False, "安装包签名无效或发布者不是 Microsoft Corporation"
-        return True, "Windows 签名有效；发布者 Microsoft Corporation"
+            return False, "安装包签名无效或发布者不符：" + expected_publisher
+        return True, "Windows 签名有效；发布者 " + expected_publisher
     except Exception as exc:
         return False, f"无法验证安装包签名: {exc}"

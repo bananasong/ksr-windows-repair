@@ -1174,99 +1174,6 @@
       }
     },
     {
-      "uuid": "d3499f8e-67a3-5fb4-b963-e8e140920442",
-      "group": "runtime",
-      "title": "VC++ 2013 运行库",
-      "severity": "warn",
-      "impact": "2013 年编译的软件与游戏依赖",
-      "check": {
-        "api": "vcredist.probe",
-        "args": {
-          "major": 12
-        }
-      },
-      "tags": [
-        "vcfix"
-      ],
-      "needs_admin": true,
-      "needs_reboot": false,
-      "optional": true,
-      "fix": {
-        "api": "vcredist.install",
-        "args": {
-          "gen": 12
-        }
-      },
-      "verify": {
-        "api": "vcredist.probe",
-        "args": {
-          "major": 12
-        }
-      }
-    },
-    {
-      "uuid": "231b8fd3-e358-5329-9f06-2cd7108e24f9",
-      "group": "runtime",
-      "title": "VC++ 2012 运行库",
-      "severity": "warn",
-      "impact": "2012 年编译的软件与游戏依赖",
-      "check": {
-        "api": "vcredist.probe",
-        "args": {
-          "major": 11
-        }
-      },
-      "tags": [
-        "vcfix"
-      ],
-      "needs_admin": true,
-      "needs_reboot": false,
-      "optional": true,
-      "fix": {
-        "api": "vcredist.install",
-        "args": {
-          "gen": 11
-        }
-      },
-      "verify": {
-        "api": "vcredist.probe",
-        "args": {
-          "major": 11
-        }
-      }
-    },
-    {
-      "uuid": "9e2c9880-bdfe-504d-b205-7bdf95bb66b2",
-      "group": "runtime",
-      "title": "VC++ 2010 运行库",
-      "severity": "warn",
-      "impact": "2010 年编译的行业软件与老游戏依赖",
-      "check": {
-        "api": "vcredist.probe",
-        "args": {
-          "major": 10
-        }
-      },
-      "tags": [
-        "vcfix"
-      ],
-      "needs_admin": true,
-      "needs_reboot": false,
-      "optional": true,
-      "fix": {
-        "api": "vcredist.install",
-        "args": {
-          "gen": 10
-        }
-      },
-      "verify": {
-        "api": "vcredist.probe",
-        "args": {
-          "major": 10
-        }
-      }
-    },
-    {
       "uuid": "759101ed-7b1e-5478-ab75-e716619e4980",
       "group": "runtime",
       "title": ".NET Framework 4.8",
@@ -1375,26 +1282,6 @@
           ]
         }
       }
-    },
-    {
-      "uuid": "05a0c6b0-b918-5f48-bf5d-c2c73dea344d",
-      "group": "manual",
-      "title": "重新安装 MSXML 4.0 解析器",
-      "severity": "warn",
-      "impact": "微软已停止随系统分发，需到官网下载 MSXML 4.0 SP3 安装包手动安装",
-      "check": {
-        "api": "dll.catalog",
-        "args": {
-          "cat": "msxml_legacy"
-        }
-      },
-      "tags": [
-        "msxml"
-      ],
-      "needs_admin": false,
-      "needs_reboot": false,
-      "optional": true,
-      "link": "https://www.microsoft.com/en-us/download/details.aspx?id=19662"
     },
     {
       "uuid": "fcfd664f-4d45-547d-b2e6-652d42815104",
@@ -1584,30 +1471,11 @@
       }
     },
     {
-      "uuid": "cb87fb91-9f09-50cc-84af-9b7690fbde34",
+      "uuid": "10af44d8-77cb-504e-a68f-ea88f957d89f",
       "group": "runtime",
-      "title": "VC++ 2008 运行库 (msvcr90)",
+      "title": "VC++ 2002/2003 应用专用依赖",
       "severity": "warn",
-      "impact": "2008 年编译的老软件依赖，微软该版本的下载入口已不稳定，需手动安装",
-      "check": {
-        "api": "dll.catalog",
-        "args": {
-          "cat": "vc90"
-        }
-      },
-      "tags": [
-        "dllcatalog"
-      ],
-      "needs_admin": false,
-      "needs_reboot": false,
-      "optional": true
-    },
-    {
-      "uuid": "7169bb00-f07c-5395-a9ed-799baa2ad5d5",
-      "group": "runtime",
-      "title": "VC++ 2002-2013 其余运行库",
-      "severity": "warn",
-      "impact": "更早期的 C 运行库，只在个别古董软件上才会用到",
+      "impact": "msvcr70/71 等需由原应用安装包提供，2008 以后的运行库无法补齐；正常系统可以没有",
       "check": {
         "api": "dll.catalog",
         "args": {
@@ -1622,11 +1490,11 @@
       "optional": true
     },
     {
-      "uuid": "8576a6e8-b3e8-5dab-9a53-b02e825e2412",
+      "uuid": "14b1acd2-bac3-586d-b589-322da2629550",
       "group": "dll",
-      "title": "MFC / ATL 框架库",
+      "title": "MFC / ATL 7.1 应用专用依赖",
       "severity": "warn",
-      "impact": "大量国产老软件与行业软件基于 MFC 开发",
+      "impact": "旧版行业软件需由原应用安装包提供 MFC/ATL 7.1；新版 MFC 安装器不覆盖此版本",
       "check": {
         "api": "dll.catalog",
         "args": {
@@ -1707,25 +1575,6 @@
         "api": "dll.catalog",
         "args": {
           "cat": "media_foundation"
-        }
-      },
-      "tags": [
-        "dllcatalog"
-      ],
-      "needs_admin": false,
-      "needs_reboot": false,
-      "optional": true
-    },
-    {
-      "uuid": "4eaf17b1-1513-518f-b0f6-05c298b51cd7",
-      "group": "game",
-      "title": "游戏专用运行库",
-      "severity": "warn",
-      "impact": "独立游戏常用的音频与物理引擎依赖",
-      "check": {
-        "api": "dll.catalog",
-        "args": {
-          "cat": "game_extra"
         }
       },
       "tags": [
@@ -3433,6 +3282,473 @@
           "item": "edgebrowserresidentclose"
         }
       }
+    },
+    {
+      "uuid": "8c5621cd-4e3b-5fe1-bb55-821f0371ceb5",
+      "group": "runtime",
+      "title": "VC++ 2005 CRT / MFC / ATL (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2005-x86"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2005-x86"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2005-x86"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2005-x86"
+      ]
+    },
+    {
+      "uuid": "4fdd388a-e22b-5482-8a68-65c5d0dc6d3f",
+      "group": "runtime",
+      "title": "VC++ 2005 CRT / MFC / ATL (x64)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2005-x64"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2005-x64"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2005-x64"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2005-x64"
+      ]
+    },
+    {
+      "uuid": "fae2da55-344f-5fcb-8b28-359f892182f2",
+      "group": "runtime",
+      "title": "VC++ 2008 CRT / MFC / ATL (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2008-x86"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2008-x86"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2008-x86"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2008-x86"
+      ]
+    },
+    {
+      "uuid": "73426a75-2169-5a64-a1d3-fdf807546420",
+      "group": "runtime",
+      "title": "VC++ 2008 CRT / MFC / ATL (x64)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2008-x64"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2008-x64"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2008-x64"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2008-x64"
+      ]
+    },
+    {
+      "uuid": "9c0319d5-ed41-55b3-bced-7b6ba4996909",
+      "group": "runtime",
+      "title": "VC++ 2010 CRT / MFC / ATL (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2010-x86"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2010-x86"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2010-x86"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2010-x86"
+      ]
+    },
+    {
+      "uuid": "01720e51-e0f4-588b-815c-8454d9f0787b",
+      "group": "runtime",
+      "title": "VC++ 2010 CRT / MFC / ATL (x64)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2010-x64"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2010-x64"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2010-x64"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2010-x64"
+      ]
+    },
+    {
+      "uuid": "e9381681-6487-57a9-8436-abea2d1085d8",
+      "group": "runtime",
+      "title": "VC++ 2012 CRT / MFC / ATL (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2012-x86"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2012-x86"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2012-x86"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2012-x86"
+      ]
+    },
+    {
+      "uuid": "50e27899-6a37-5167-93be-f0dad3b128a8",
+      "group": "runtime",
+      "title": "VC++ 2012 CRT / MFC / ATL (x64)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2012-x64"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2012-x64"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2012-x64"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2012-x64"
+      ]
+    },
+    {
+      "uuid": "21e6cef3-723b-5514-9d3a-4a1062cc4ac4",
+      "group": "runtime",
+      "title": "VC++ 2013 CRT / MFC (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2013-x86"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2013-x86"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2013-x86"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2013-x86"
+      ]
+    },
+    {
+      "uuid": "50e1f767-fc28-5992-952b-a52624b93206",
+      "group": "runtime",
+      "title": "VC++ 2013 CRT / MFC (x64)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2013-x64"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "vc2013-x64"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "vc2013-x64"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "vc2013-x64"
+      ]
+    },
+    {
+      "uuid": "e07be8ee-2b08-51bb-9ad6-65aad63ace23",
+      "group": "game",
+      "title": "OpenAL 游戏音频运行库",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "openal"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "openal"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "openal"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "openal"
+      ]
+    },
+    {
+      "uuid": "0cd881ca-2d7b-5f38-be16-fc31314d4ffa",
+      "group": "game",
+      "title": "NVIDIA PhysX 游戏物理运行库",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "physx"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "physx"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "physx"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "physx"
+      ]
+    },
+    {
+      "uuid": "56973411-02b0-508b-8aff-a5220fa3c7c3",
+      "group": "runtime",
+      "title": "MSXML 4.0 SP3 安全更新 (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "按应用需要安装兼容组件；官方来源、哈希及发布者签名校验后安装，随后复检",
+      "check": {
+        "api": "component.probe",
+        "args": {
+          "package": "msxml4"
+        }
+      },
+      "verify": {
+        "api": "component.probe",
+        "args": {
+          "package": "msxml4"
+        }
+      },
+      "fix": {
+        "api": "component.install",
+        "args": {
+          "package": "msxml4"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "msxml4"
+      ]
+    },
+    {
+      "uuid": "7f214088-740c-50e9-8cf6-5de9411db69c",
+      "group": "runtime",
+      "title": "MFC v14 框架库 (x86)",
+      "severity": "info",
+      "optional": true,
+      "impact": "用于依赖 MFC 2015 及以后版本的应用，通过微软 VC++ v14 安装器补齐",
+      "check": {
+        "api": "component.mfc14",
+        "args": {
+          "arch": "x86"
+        }
+      },
+      "verify": {
+        "api": "component.mfc14",
+        "args": {
+          "arch": "x86"
+        }
+      },
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 14,
+          "arch": "x86"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "mfc14"
+      ]
+    },
+    {
+      "uuid": "7af69aa0-d26b-5c15-8d56-ea57e876bebf",
+      "group": "runtime",
+      "title": "MFC v14 框架库 (x64)",
+      "severity": "info",
+      "optional": true,
+      "impact": "用于依赖 MFC 2015 及以后版本的应用，通过微软 VC++ v14 安装器补齐",
+      "check": {
+        "api": "component.mfc14",
+        "args": {
+          "arch": "x64"
+        }
+      },
+      "verify": {
+        "api": "component.mfc14",
+        "args": {
+          "arch": "x64"
+        }
+      },
+      "fix": {
+        "api": "vcredist.install",
+        "args": {
+          "gen": 14,
+          "arch": "x64"
+        }
+      },
+      "needs_admin": true,
+      "tags": [
+        "component",
+        "mfc14"
+      ]
     }
   ]
 }

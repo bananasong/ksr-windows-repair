@@ -451,7 +451,7 @@ html, body {
 }
 .modal[hidden] { display: none; }
 .modal-box {
-  width: 560px;
+  width: min(760px, 94vw);
   max-height: 74vh;
   background: #fff;
   border-radius: 10px;
@@ -486,6 +486,12 @@ html, body {
   line-height: 1.85;
   overflow-y: auto;
 }
+.startup-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 1px solid #eef0f3; }
+.startup-item input { flex-shrink: 0; margin-top: 6px; }
+.startup-item span { min-width: 0; }
+.startup-item small { color: #7b8492; }
+.startup-item code { display: block; overflow-wrap: anywhere; white-space: normal; }
+#startup-disable { margin-top: 16px; }
 .modal-body h4 { margin: 14px 0 6px; font-size: 13.5px; color: #1f2329; }
 .modal-body ul { margin: 6px 0; padding-left: 18px; }
 .modal-body code {

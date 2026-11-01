@@ -13,8 +13,8 @@ if destination == ROOT or ROOT not in destination.parents:
     raise SystemExit("The staging tree must be a child of this workspace")
 destination.mkdir(parents=True, exist_ok=True)
 allowed = ["pyproject.toml", ".gitignore", ".gitattributes", ".github/workflows/windows.yml",
-           "docs/LIMITATIONS.md", "docs/PROVENANCE.md", "tools/ksr_launcher.py",
-           "tools/build_portable.ps1", "tools/collect_licenses.py", "tools/export_source.py"]
+           "docs/LIMITATIONS.md", "docs/PROVENANCE.md", "docs/REPLACEMENT_MATRIX.md", "tools/ksr_launcher.py",
+           "tools/build_portable.ps1", "tools/collect_licenses.py", "tools/export_source.py", "tools/verify_portable.py"]
 for folder in ("ksr", "tests"):
     for path in (ROOT / folder).rglob("*"):
         if path.is_file() and "__pycache__" not in path.parts and (path.suffix in {

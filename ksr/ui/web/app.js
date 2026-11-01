@@ -390,7 +390,7 @@ function render() {
 function rowMeta(f) {
   const d = f.data || {};
   if (Array.isArray(d.missing) && d.missing.length) {
-    return `${d.missing.length} 个文件`;
+    return `${d.missing.length} 个${d.missing_kind === 'assemblies' ? '组件' : '文件'}`;
   }
   return '';
 }
@@ -409,7 +409,9 @@ function autoRow(f) {
 
 function manualRow(f) {
   const meta = rowMeta(f);
-  const btn = f.link
+  const btn = f.data?.action === 'startup_manager'
+    ? '<button class="row-btn" data-act="startup">选择停用</button>'
+    : f.link
     ? '<button class="row-btn" data-act="open">官网下载</button>'
     : '<button class="row-btn" data-act="detail">查看方法</button>';
   return `
@@ -439,6 +441,7 @@ function passRow(p) {
 }
 
 function bindRows() {
+  document.querySelectorAll('[data-act="startup"]').forEach((b) => b.addEventListener('click', showStartup));
   document.querySelectorAll('.sec-head').forEach((h) => {
     h.addEventListener('click', () => h.closest('.section').classList.toggle('collapsed'));
   });
@@ -571,6 +574,39 @@ function openModal(title, bodyHtml) {
 }
 function closeModal() { $('#modal').hidden = true; }
 
+async function showStartup() {
+  try {
+    const data = await api('/api/startup');
+    const rows = data.items || [];
+    openModal('启动项管理 · 按需选择停用', `
+      <p>仅列出注册表 Run 启动项。请保留需要的输入法、驱动及安全软件；默认不选择任何项。
+      不处理服务、驱动、计划任务或启动文件夹。停用不结束当前程序，下次登录生效，可从修复记录撤销。</p>
+      <div class="startup-list">${rows.map((row, index) => `
+        <label class="startup-item">
+          <input type="checkbox" class="startup-choice" value="${index}" ${row.enabled ? '' : 'disabled'}>
+          <span><strong>${esc(row.name)}</strong> <small>${esc(row.scope)}${row.enabled ? '' : ' · 已在系统中禁用'}</small>
+          <code>${esc(row.command)}</code></span>
+        </label>`).join('') || '<p>未发现 Run 启动项。</p>'}</div>
+      <button class="btn-primary" id="startup-disable" disabled>停用所选项（可撤销）</button>`);
+    const button = $('#startup-disable');
+    document.querySelectorAll('.startup-choice').forEach((input) => input.addEventListener('change', () => {
+      button.disabled = !document.querySelector('.startup-choice:checked');
+    }));
+    button.addEventListener('click', async () => {
+      const selected = [...document.querySelectorAll('.startup-choice:checked')].map((input) => rows[Number(input.value)]);
+      if (!selected.length || !confirm('下次登录时停止自动启动：\n' + selected.map((row) => '· ' + row.name).join('\n') + '\n\n可以在修复记录中撤销。是否继续？')) return;
+      button.disabled = true;
+      try {
+        const result = await api('/api/startup/disable', {method: 'POST', body: JSON.stringify({
+          confirm: true, items: selected.map(({id, fingerprint}) => ({id, fingerprint}))})});
+        alert(result.message);
+        if (result.ok) { closeModal(); await scan(); }
+        else await showStartup();
+      } catch (error) { alert('停用未完成：' + error.message); button.disabled = false; }
+    });
+  } catch (error) { alert('读取启动项失败：' + error.message); }
+}
+
 function showDetail(uuid) {
   const f = findFinding(uuid);
   if (f) return showFindingDetail(f);
@@ -618,10 +654,14 @@ function showFindingDetail(f) {
   const d = f.data || {};
   const rows = [];
   if (d.missing && d.missing.length) {
-    rows.push(`<h4>缺失文件（${d.missing.length}/${d.total || '?'}）</h4>
+    rows.push(`<h4>未检测到的${d.missing_kind === 'assemblies' ? '程序集' : '文件'}（${d.missing.length} 项）</h4>
       <div>${d.missing.map((m) => `<code>${esc(m)}</code>`).join(' ')}</div>`);
   }
   if (d.purpose) rows.push(`<h4>这一项是做什么的</h4><div>${esc(d.purpose)}</div>`);
+  if (d.official_url) rows.push(`<h4>安装来源与校验</h4>
+    <div>官方来源：<a href="${esc(d.official_url)}" target="_blank" rel="noopener noreferrer">${esc(d.official_url)}</a></div>
+    <div>发布者：${esc(d.publisher)}；下载后核对 SHA-256 与 Windows 签名。</div>
+    <code>${esc(d.sha256)}</code>`);
   if (d.tier) {
     rows.push(`<h4>判定档位</h4><div>${d.tier === 'core'
       ? '必需项 —— 健康系统上必然存在，缺失属真故障'
@@ -635,12 +675,14 @@ function showFindingDetail(f) {
     <h4>修复动作</h4>
     <div>${f.fix
       ? `调用 <code>${esc(f.fix.api)}</code> ${f.fix.args ? esc(JSON.stringify(f.fix.args)) : ''}`
-      : '本项没有自动修复路径，需要按官方方式手动处理'}</div>
+      : d.action === 'startup_manager' ? '请点击“启动项管理”，选择需要停用的程序。'
+      : '未找到已验证的独立安装包；请使用原应用安装包恢复所需版本，可先通过“诊断应用”检查应用目录。'}</div>
     ${f.needs_admin ? '<h4>权限</h4><div>需要以管理员身份运行才能完成。</div>' : ''}
     <h4>脚本 UUID</h4><div><code>${esc(f.uuid)}</code></div>`);
 }
 
 function bindStatic() {
+  $('#btn-startup').addEventListener('click', showStartup);
   $('#btn-diagnose').addEventListener('click', async () => {
     const path = prompt('输入需要诊断的 EXE 或 DLL 完整路径（只读分析，不启动程序）');
     if (!path) return;
