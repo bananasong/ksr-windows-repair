@@ -104,8 +104,8 @@ class DownloadTests(unittest.TestCase):
     def test_invalid_signature_prevents_installer_execution(self):
         with patch.object(downloads, "verify_microsoft", return_value=(False, "invalid signature")), \
              patch.object(api.subprocess, "run", side_effect=AssertionError("installer executed")):
-            good, _ = api._run_installer("test.exe", [])
-        self.assertFalse(good)
+            result = api._run_installer("test.exe", [])
+        self.assertFalse(result.ok)
 
 
 if __name__ == "__main__":

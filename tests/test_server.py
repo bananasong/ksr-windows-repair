@@ -1,4 +1,6 @@
 import json
+import os
+import tempfile
 import threading
 import unittest
 import urllib.error
@@ -11,6 +13,10 @@ from ksr.ui.server import make_server
 
 class ServerTests(unittest.TestCase):
     def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        env = patch.dict(os.environ, {"KSR_STATE_DIR": temp.name})
+        env.start(); self.addCleanup(env.stop)
         self.fixed = []
         checks = patch.dict(api.CHECKS, {"http.check": lambda _: api.ok("healthy")})
         fixes = patch.dict(api.FIXES, {"http.fix": lambda _: self.fixed.append(True) or (True, "done")})
@@ -60,6 +66,28 @@ class ServerTests(unittest.TestCase):
             _, body = self.request("/?t=" + self.state.token)
         self.assertNotIn(attack.encode(), body)
         self.assertIn(b"\\u003c/script>", body)
+
+    def test_pending_reboot_event_is_not_reported_as_failed(self):
+        with patch.dict(api.CHECKS, {"http.check": lambda _: api.bad("fixture issue")}), \
+             patch.dict(api.FIXES, {"http.fix": lambda _: api.FixResult(True, "installed", True, (3010,))}):
+            _, response = self.request("/api/fix", {"uuids": ["http-test"]}, {"X-KSR-Token": self.state.token})
+        events = [json.loads(line) for line in response.splitlines()]
+        item = next(e for e in events if e["type"] == "item")
+        done = next(e for e in events if e["type"] == "done")
+        self.assertEqual(item["status"], "pending_reboot")
+        self.assertTrue(item["needs_reboot"])
+        self.assertEqual(item["installer_exit_codes"], [3010])
+        self.assertEqual(done["ok_count"], 0)
+        self.assertEqual(done["failed"], [])
+        self.assertEqual(len(done["pending_reboot"]), 1)
+
+    def test_dotnet_install_requires_session_and_explicit_plan_confirmation(self):
+        for headers, payload, expected in (({}, {}, 403), ({"X-KSR-Token": self.state.token}, {}, 400),
+                ({"X-KSR-Token": self.state.token}, {"confirm": True}, 400)):
+            with self.subTest(expected=expected), self.assertRaises(urllib.error.HTTPError) as error:
+                self.request('/api/dotnet/install', payload, headers)
+            self.assertEqual(error.exception.code, expected)
+            error.exception.close()
 
 
 if __name__ == "__main__":

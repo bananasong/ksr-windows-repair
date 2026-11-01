@@ -6,6 +6,8 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from ksr import __version__
 destination = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "release/ksr-windows-repair"
 if destination == ROOT or ROOT not in destination.parents:
     raise SystemExit("The staging tree must be a child of this workspace")
@@ -32,10 +34,10 @@ for path in files:
 manifest = "\n".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(destination).as_posix()}" for p in files) + "\n"
 (destination / "MANIFEST.sha256").write_text(manifest, encoding="utf-8")
 files.append(destination / "MANIFEST.sha256")
-archive = ROOT / "dist/KSR-1.1.0a1-source.zip"
+archive = ROOT / f"dist/KSR-{__version__}-source.zip"
 archive.parent.mkdir(parents=True, exist_ok=True)
 with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as stream:
     for path in files:
-        stream.write(path, "KSR-1.1.0a1/" + path.relative_to(destination).as_posix())
+        stream.write(path, f"KSR-{__version__}/" + path.relative_to(destination).as_posix())
 print(f"Staged {len(files)} files: {destination}")
 print(f"Source archive: {archive}")

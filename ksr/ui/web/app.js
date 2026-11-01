@@ -496,6 +496,7 @@ async function runFix(uuids) {
   let doneN = 0;
   let okN = 0;
   const failed = [];
+  const pendingReboot = [];
 
   try {
     await streamNdjson('/api/fix', {
@@ -507,6 +508,7 @@ async function runFix(uuids) {
       } else if (ev.type === 'item') {
         doneN += 1;
         if (ev.ok) okN += 1;
+        else if (ev.status === 'pending_reboot') pendingReboot.push(ev);
         else if (!['pending_reboot', 'not_needed'].includes(ev.status)) failed.push(ev);
         setRowState(ev.uuid, ev.ok ? 'ok' : ev.status === 'pending_reboot' ? 'pending' : 'bad', ev.message || (ev.ok ? '已验证' : '未确认修复'));
       } else if (ev.type === 'done') {
@@ -519,6 +521,14 @@ async function runFix(uuids) {
 
   STATE.fixing = false;
   btnFix.textContent = '修复所选项';
+
+  if (pendingReboot.length) {
+    alert(`已验证 ${okN} 项，${pendingReboot.length} 项待重启验证` +
+      (failed.length ? `，${failed.length} 项未成功` : '') + '。\n请保存工作并手动重启电脑，然后重新扫描。\n' +
+      pendingReboot.map((f) => `· ${f.title}：${f.message}`).join('\n') +
+      (failed.length ? '\n未成功项目：\n' + failed.map((f) => `· ${f.title}：${f.message}`).join('\n') : ''));
+    return;
+  }
 
   if (doneN > 0) {
     const msg = failed.length
@@ -544,7 +554,7 @@ function setRowState(uuid, kind, text) {
   s.textContent = text;
   const btn = row.querySelector('.row-btn');
   if (btn) {
-    btn.disabled = kind === 'busy' || kind === 'ok';
+    btn.disabled = kind === 'busy' || kind === 'ok' || kind === 'pending';
     if (kind === 'ok') btn.classList.add('done');
     if (kind === 'bad') btn.classList.add('fail');
   }
@@ -641,8 +651,12 @@ function bindStatic() {
       openModal('应用诊断', `<p>${esc(report.path)} · ${esc(report.machine)}</p>
         <table><tr><th>依赖</th><th>检查结果</th><th>候选位置</th></tr>${rows}</table>
         ${(report.recommendations || []).map((s) => `<p>${esc(s)}</p>`).join('')}
-        ${report.runtime ? `<h4>.NET 运行时</h4><pre>${esc(JSON.stringify(report.runtime, null, 2))}</pre>` : ''}
+        ${report.runtime ? `<h4>.NET 运行时</h4><p>${esc(report.runtime.status)} · ${esc(report.runtime.architecture)}</p>` +
+          report.runtime.frameworks.map((r) => `<p>${esc(r.name)} ${esc(r.requested_version)}：${esc(r.selected_version || '未找到符合要求的版本')}</p>`).join('') +
+          (report.runtime.status === 'missing' ? '<button class="row-btn" id="btn-dotnet-plan">查看 .NET 安装方案</button>' : '') : ''}
         <p>${report.limitations.map(esc).join('<br>')}</p>`);
+      const installButton = $('#btn-dotnet-plan');
+      if (installButton) installButton.addEventListener('click', () => installDotnetForApp(report.path));
     } catch (error) { openModal('诊断未完成', `<p>${esc(error.message)}</p>`); }
   });
   $('#btn-history').addEventListener('click', async () => {
@@ -715,6 +729,36 @@ function bindStatic() {
   $('#lnk-repo').addEventListener('click', (e) => { e.preventDefault(); about(); });
   $('#lnk-about').addEventListener('click', (e) => { e.preventDefault(); about(); });
   $('#lnk-license').addEventListener('click', (e) => { e.preventDefault(); license(); });
+}
+
+async function installDotnetForApp(path) {
+  let installDir = null;
+  if (!BOOT.env.admin) {
+    installDir = prompt('当前不是管理员。可安装到一个尚不存在的新私有目录，之后使用该目录的 dotnet.exe 启动应用 DLL；不会改变系统运行时。\n若要安装到系统，请取消并以管理员身份重新运行。\n请输入新目录完整路径：');
+    if (!installDir) return;
+  }
+  const request = {path, install_dir: installDir};
+  openModal('.NET 安装方案', '<p>正在读取微软发布信息并匹配版本…</p>');
+  try {
+    const plan = await api('/api/dotnet/plan', {method: 'POST', body: JSON.stringify(request)});
+    if (plan.status !== 'ready') {
+      openModal('.NET 检查结果', `<p>${esc(plan.status)}</p><p>${esc((plan.issues || []).join('；'))}</p>`);
+      return;
+    }
+    const items = plan.packages.map((p) => `${p.family} ${p.version} (${p.architecture})`);
+    openModal('.NET 安装方案', `<p>${esc(installDir ? '安装到私有目录：' + installDir : '安装到系统')}</p>` +
+      items.map((s) => `<p>${esc(s)}</p>`).join('') + '<p>从微软官方下载并校验。安装不能整体撤销；不会自动重启，也不会启动目标应用。</p><button class="row-btn" id="btn-dotnet-install">确认安装</button>');
+    $('#btn-dotnet-install').addEventListener('click', async () => {
+      if (!confirm('确认安装以下官方运行时？\n' + items.join('\n'))) return;
+      openModal('正在安装 .NET', '<p>正在下载、校验和安装，请稍候…</p>');
+      try {
+        const result = await api('/api/dotnet/install', {method: 'POST', body: JSON.stringify({...request, confirm: true, expected_packages: plan.packages})});
+        const labels = {verified: '运行时配置复检通过', pending_reboot: '需要重启后重新检测', failed: '安装未完成', blocked: '无法自动安装', not_needed: '已满足要求'};
+        openModal('.NET 安装结果', `<h4>${esc(labels[result.status] || result.status)}</h4><p>${esc(result.message)}</p>` +
+          (installDir && result.ok ? `<p>私有运行时路径：${esc(installDir)}。请通过该目录的 dotnet.exe 启动应用 DLL。</p>` : ''));
+      } catch (error) { openModal('安装未完成', `<p>${esc(error.message)}</p>`); }
+    });
+  } catch (error) { openModal('无法生成方案', `<p>${esc(error.message)}</p>`); }
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });

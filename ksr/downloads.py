@@ -8,7 +8,8 @@ import subprocess
 import urllib.parse
 import urllib.request
 
-HOSTS = {"aka.ms", "download.microsoft.com", "download.visualstudio.microsoft.com"}
+HOSTS = {"aka.ms", "download.microsoft.com", "download.visualstudio.microsoft.com",
+         "builds.dotnet.microsoft.com", "dotnetcli.blob.core.windows.net"}
 
 
 def allowed_url(url):
@@ -24,13 +25,14 @@ class OfficialRedirect(urllib.request.HTTPRedirectHandler):
         return super().redirect_request(request, fp, code, msg, headers, newurl)
 
 
-def download(url, destination, timeout=300, expected_sha256=None):
+def download(url, destination, timeout=300, expected_sha256=None, expected_sha512=None):
     target = Path(destination)
     part = target.with_name(target.name + ".part")
     try:
         if not allowed_url(url):
             raise ValueError("只接受配置中的微软官方 HTTPS 来源")
         digest = hashlib.sha256()
+        sha512 = hashlib.sha512()
         size = 0
         opener = urllib.request.build_opener(OfficialRedirect())
         with opener.open(urllib.request.Request(url, headers={"User-Agent": "KSR/1.1"}), timeout=timeout) as response:
@@ -41,12 +43,14 @@ def download(url, destination, timeout=300, expected_sha256=None):
                     size += len(chunk)
                     if size > 256 * 1024 * 1024:
                         raise ValueError("安装包超过大小上限")
-                    digest.update(chunk); stream.write(chunk)
+                    digest.update(chunk); sha512.update(chunk); stream.write(chunk)
                 stream.flush(); os.fsync(stream.fileno())
         if size < 65536:
             raise ValueError("下载内容不是完整安装包")
         if expected_sha256 and digest.hexdigest().lower() != expected_sha256.lower():
             raise ValueError("安装包 SHA-256 不匹配")
+        if expected_sha512 and sha512.hexdigest().lower() != expected_sha512.lower():
+            raise ValueError("安装包 SHA-512 不匹配")
         os.replace(part, target)
         return True, f"下载 {size} 字节；SHA-256 {digest.hexdigest()}"
     except Exception as exc:

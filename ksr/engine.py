@@ -75,6 +75,8 @@ class Finding:
     status: str = "issue"
     fix_status: str = "not_run"
     journal_id: str = ""
+    reboot_required: bool = False
+    installer_exit_codes: tuple[int, ...] = ()
 
     @property
     def sev(self) -> str:
@@ -100,7 +102,8 @@ class Finding:
             "journal_id": self.journal_id,
             "link": self.rule.link,
             "needs_admin": self.rule.needs_admin,
-            "needs_reboot": self.rule.needs_reboot,
+            "needs_reboot": self.rule.needs_reboot or self.reboot_required,
+            "installer_exit_codes": list(self.installer_exit_codes),
             "fix_ok": self.fix_ok,
             "fix_message": self.fix_message,
             "verify_detail": self.verify_detail,
@@ -276,6 +279,9 @@ class Engine:
             rule = f.rule
             f.fix_ok = None
             f.fix_status = "not_run"
+            f.reboot_required = False
+            f.installer_exit_codes = ()
+            f.verify_detail = ""
             if f.status != "issue":
                 f.fix_message = "检测未完成，不能据此执行修复"
                 continue
@@ -303,7 +309,13 @@ class Engine:
                 record = journal.Journal(rule.uuid, rule.title)
                 f.journal_id = record.id
                 active = journal.ACTIVE.set(record)
-                good, msg = api.FIXES[spec["api"]](spec.get("args") or {})
+                result = api.FIXES[spec["api"]](spec.get("args") or {})
+                if isinstance(result, api.FixResult):
+                    good, msg = result.ok, result.message
+                    f.reboot_required = result.needs_reboot
+                    f.installer_exit_codes = result.exit_codes
+                else:
+                    good, msg = result
             except Exception as exc:  # noqa: BLE001
                 good, msg = False, f"修复异常: {exc.__class__.__name__}: {exc}"
             finally:
@@ -312,17 +324,27 @@ class Engine:
             f.fix_ok = bool(good)
             f.fix_status = "failed" if not good else "unverified"
             f.fix_message = msg
-            if good and not rule.verify:
-                f.fix_ok = False
-                f.fix_message += "（缺少复检，尚未验证）"
             self.telemetry.append(
                 f"scriptapi={spec['api']}&apiret={0 if good else 1}&param1={rule.uuid}"
             )
-            if good and rule.verify:
+            needs_reboot = rule.needs_reboot or f.reboot_required
+            if good and needs_reboot:
+                f.fix_ok = False
+                f.fix_status = "pending_reboot"
+                f.verify_detail = "需重启后重新检测，尚未确认修复"
+                f.fix_message += "（需重启后重新检测，尚未确认修复）"
+            elif good and not rule.verify:
+                f.fix_ok = False
+                f.fix_message += "（缺少复检，尚未验证）"
+            elif good and rule.verify:
                 try:
                     v = api.CHECKS[rule.verify["api"]](rule.verify.get("args") or {})
                     f.verify_detail = v.get("detail", "")
-                    if not v.get("ok"):
+                    if v.get("status") == "unavailable":
+                        f.fix_ok = False
+                        f.fix_status = "unverified"
+                        f.fix_message += "（复检未完成，尚未验证）"
+                    elif not v.get("ok"):
                         f.fix_ok = False
                         f.fix_message += "（修复后复检未通过）"
                         f.fix_status = "failed"
@@ -336,12 +358,9 @@ class Engine:
                     f.fix_ok = False
                     f.fix_status = "unverified"
                     f.verify_detail = f"复检异常: {exc}"
-            if good and rule.needs_reboot:
-                f.fix_ok = False
-                f.fix_status = "pending_reboot"
-                f.fix_message += "（需重启后重新检测，尚未确认修复）"
             if record:
                 try:
+                    record.data.update(needs_reboot=needs_reboot, installer_exit_codes=list(f.installer_exit_codes))
                     record.finish(f.fix_status, f.fix_message)
                 except Exception as exc:
                     f.fix_ok = False

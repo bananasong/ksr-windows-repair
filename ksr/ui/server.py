@@ -152,7 +152,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         u = urlparse(self.path)
-        if u.path in ("/api/diagnose", "/api/undo"):
+        if u.path in ("/api/diagnose", "/api/undo", "/api/dotnet/plan", "/api/dotnet/install"):
             if not self._authed():
                 return
             body = self._body()
@@ -161,6 +161,18 @@ class Handler(BaseHTTPRequestHandler):
                     if u.path == "/api/diagnose":
                         from ..diagnose import inspect
                         return self._json(inspect(body.get("path", "")))
+                    if u.path.startswith('/api/dotnet/'):
+                        from .. import dotnet
+                        path, architecture, directory = body.get('path', ''), body.get('architecture'), body.get('install_dir')
+                        if u.path.endswith('/plan'):
+                            result = dotnet.plan_for_app(path, architecture, directory, 'private' if directory else 'system')
+                        else:
+                            if body.get('confirm') is not True:
+                                raise ValueError('需明确确认后才能安装')
+                            if not isinstance(body.get('expected_packages'), list):
+                                raise ValueError('请先生成并确认安装计划')
+                            result = dotnet.install_for_app(path, architecture, directory, body['expected_packages'])
+                        return self._json(result)
                     from ..journal import undo
                     return self._json(undo(body.get("id", "")))
             except (OSError, ValueError, TypeError) as exc:
@@ -292,7 +304,7 @@ class Handler(BaseHTTPRequestHandler):
             eng = engine.Engine(st.cfg, dry_run=False, include_optional=True)
             rules = [st.cfg.rules[u] for u in uuids if u in st.cfg.rules]
             self._emit(wf, {"type": "start", "total": len(rules)})
-            done, failed = 0, []
+            done, failed, pending_reboot, unverified = 0, [], [], []
             for rule in rules:
                 self._emit(wf, {"type": "begin", "uuid": rule.uuid,
                                 "title": rule.title})
@@ -305,15 +317,20 @@ class Handler(BaseHTTPRequestHandler):
                 ok = bool(f.fix_ok)
                 done += 1 if ok else 0
                 if not ok:
-                    failed.append({"uuid": rule.uuid, "title": rule.title,
-                                   "message": f.fix_message})
+                    target = (pending_reboot if f.fix_status == "pending_reboot"
+                              else failed if f.fix_status == "failed" else unverified)
+                    target.append({"uuid": rule.uuid, "title": rule.title,
+                                   "message": f.fix_message, "status": f.fix_status})
                 self._emit(wf, {"type": "item", "uuid": rule.uuid,
                                 "title": rule.title, "ok": ok,
                                 "message": f.fix_message,
                                 "status": f.fix_status, "journal_id": f.journal_id,
+                                "needs_reboot": f.to_dict()["needs_reboot"],
+                                "installer_exit_codes": list(f.installer_exit_codes),
                                 "verify": f.verify_detail})
             self._emit(wf, {"type": "done", "ok_count": done,
-                            "failed": failed, "total": len(rules)})
+                            "failed": failed, "pending_reboot": pending_reboot,
+                            "unverified": unverified, "total": len(rules)})
 
 
 def make_server(cfg) -> tuple[ThreadingHTTPServer, State]:

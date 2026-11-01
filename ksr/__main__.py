@@ -140,8 +140,8 @@ def cmd_fix(args):
         if f.verify_detail:
             print(f"    {C['d']}复检：{f.verify_detail}{C['0']}")
     print(f"\n{C['w']}修复结果{C['0']}：已验证 {okc} · 失败 {failc} · 待验证 {pending} · 计划 {planc} · 手动 {manual}")
-    if any(f.rule.needs_reboot and f.fix_ok for f in findings):
-        print(f"{C['y']}部分修复项将在重启电脑后生效{C['0']}")
+    if any(f.fix_status == "pending_reboot" or f.reboot_required for f in findings):
+        print(f"{C['y']}请保存工作并手动重启电脑，然后重新扫描验证{C['0']}")
     if args.json:
         print(json.dumps([f.to_dict() for f in findings], ensure_ascii=False, indent=2))
     return 2 if failc else 3 if pending else 0
@@ -151,6 +151,20 @@ def cmd_diagnose(args):
     from .diagnose import inspect
     print(json.dumps(inspect(args.path), ensure_ascii=False, indent=2))
     return 0
+
+
+def cmd_dotnet(args):
+    from . import dotnet
+    try:
+        if not args.yes:
+            result = dotnet.plan_for_app(args.path, args.arch, args.install_dir, 'private' if args.install_dir else 'system')
+        else:
+            result = dotnet.install_for_app(args.path, args.arch, args.install_dir)
+    except (OSError, ValueError, TypeError) as exc:
+        result = {'status': 'failed', 'ok': False, 'message': str(exc)}
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    status = result['status']
+    return 3 if status in {'pending_reboot', 'unverified'} else 2 if status in {'failed', 'blocked'} else 0
 
 
 def cmd_history(args):
@@ -267,6 +281,13 @@ def main(argv=None) -> int:
     diagnose.add_argument("path")
     diagnose.add_argument("--json", action="store_true")
     diagnose.set_defaults(func=cmd_diagnose)
+    modern = sub.add_parser('dotnet-install', help='检查应用所需的现代 .NET 并生成计划；--yes 执行官方安装')
+    modern.add_argument('path', help='目标 EXE/DLL，需要相邻 runtimeconfig.json')
+    modern.add_argument('--arch', choices=['x86', 'x64'])
+    modern.add_argument('--install-dir', help='安装到尚不存在的新私有目录；否则安装到系统，需要管理员')
+    modern.add_argument('--yes', action='store_true')
+    modern.add_argument('--json', action='store_true')
+    modern.set_defaults(func=cmd_dotnet)
     history = sub.add_parser("history", help="查看本地修复记录")
     history.add_argument("--json", action="store_true")
     history.set_defaults(func=cmd_history)

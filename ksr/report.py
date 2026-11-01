@@ -83,14 +83,17 @@ def render(scan: dict, env: dict, cfg, dry_run: bool, title="系统异常修复 
         g = cfg.group_of(gid)
         rows = []
         for f in items:
-            name, color, bg = _sev(f.rule.severity)
+            name, color, bg = _sev(f.sev)
+            if f.status == "unavailable":
+                name, color, bg = "检测未完成", "#6b7a8d", "#eef2f7"
             imp = (f'<div class="d">影响：{_esc(f.rule.impact)}</div>'
                    if f.rule.impact else "")
             fix_txt = ""
-            if f.rule.fix:
-                state = ("计划" if dry_run and f.fix_ok is None
-                         else ("成功" if f.fix_ok else "失败"))
-                cls = "plan" if state == "计划" else ("ok" if state == "成功" else "fail")
+            if f.rule.fix and f.status == "issue":
+                state = {"pending_reboot": "待重启验证", "unverified": "尚未验证",
+                         "planned": "计划", "not_run": "未执行", "failed": "失败",
+                         "verified": "已验证"}.get(f.fix_status, "尚未验证")
+                cls = "ok" if state == "已验证" else "fail" if state == "失败" else "plan"
                 extra = f" {_esc(f.fix_message)}" if f.fix_message else ""
                 fix_txt = (f'<div class="d" style="margin-top:4px">修复动作 '
                            f'<code>{_esc(f.rule.fix["api"])}</code> · '
@@ -132,7 +135,7 @@ def render(scan: dict, env: dict, cfg, dry_run: bool, title="系统异常修复 
 <div class="sub">KSR 引擎 · 规则包 {_esc(cfg.build)} · {now} · {"只读扫描" if dry_run else "扫描并修复"}</div>
 </div></header>
 <div class="hero">
-  <div><div class="num">{total}</div><div class="lbl">检出问题项</div></div>
+  <div><div class="num">{total}</div><div class="lbl">需关注项（含检测未完成）</div></div>
   <div class="bar">
     <div style="font-size:13px;opacity:.92">共执行 {scan["scanned"]} 条脚本 · {len(cfg.groups)} 个分组 · 耗时 {scan["elapsed_ms"]} ms</div>
     {warns or '<div class="d" style="color:#e8f3ff;opacity:.9">· 环境自检通过</div>'}

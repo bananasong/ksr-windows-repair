@@ -5,7 +5,8 @@ luaopen_cjson / luaopen_alien_core / luaopen_alien_struct，源码路径
 src/quick_scan/LKSR/luaAPIV3/fileAPI4C.cpp），脚本按 UUID 调这些 API。
 
 本模块是同一层的等价物：每个 API 用名字注册，check 型返回统一结构，
-fix 型返回 (ok, message)。规则包（rules/*.json）通过 api 名 + args 调用。
+fix 型返回 (ok, message) 或携带重启要求的 FixResult。
+规则包（rules/*.json）通过 api 名 + args 调用。
 """
 
 from __future__ import annotations
@@ -28,6 +29,16 @@ from . import win32api as w
 
 CHECKS: dict[str, callable] = {}
 FIXES: dict[str, callable] = {}
+
+
+@dataclass(frozen=True)
+class FixResult:
+    """Structured installer outcome; reboot requirements survive API aggregation."""
+
+    ok: bool
+    message: str
+    needs_reboot: bool = False
+    exit_codes: tuple[int, ...] = ()
 
 
 def check(name):
@@ -447,12 +458,13 @@ def _print_spooler(a):
 @check("print.queue")
 def _print_queue(a):
     d = sys32("spool", "PRINTERS")
-    if not os.path.isdir(d):
-        return ok("打印队列目录不存在")
     try:
         jobs = [f for f in os.listdir(d) if f.upper().endswith((".SPL", ".SHD"))]
-    except OSError:
-        return ok("打印队列目录无读取权限（需管理员），本轮跳过")
+    except OSError as exc:
+        detail = ("打印队列目录无读取权限（需管理员），检测未完成" if isinstance(exc, PermissionError)
+                  else f"无法读取打印队列，检测未完成：{exc}")
+        return {"ok": False, "status": "unavailable", "detail": detail,
+                "data": {"path": d, "error": type(exc).__name__}}
     if len(jobs) > a.get("max_jobs", 0):
         return bad(f"打印队列积压 {len(jobs)//2} 个任务未清理", jobs=len(jobs) // 2)
     return ok("打印队列空闲")
@@ -1036,26 +1048,26 @@ def _download(url: str, dst: str, timeout: int = 300) -> tuple[bool, str]:
     return download(url, dst, timeout)
 
 
-def _run_installer(path: str, args: list[str], timeout: int = 900) -> tuple[bool, str]:
-    """静默运行安装包。0=成功，3010=成功待重启，1638=已装更高版本。"""
+def _run_installer(path: str, args: list[str], timeout: int = 900) -> FixResult:
+    """静默运行安装包，保留退出码与动态重启要求。"""
     from .downloads import verify_microsoft
     verified, message = verify_microsoft(path)
     if not verified:
-        return False, message
+        return FixResult(False, message)
     try:
         r = subprocess.run([path, *args], capture_output=True,
                            timeout=timeout, creationflags=_NO_WINDOW)
     except subprocess.TimeoutExpired:
-        return False, "安装超时（900 秒）"
+        return FixResult(False, f"安装超时（{timeout} 秒）")
     except Exception as exc:  # noqa: BLE001
-        return False, f"无法启动安装包：{exc.__class__.__name__}: {exc}"
+        return FixResult(False, f"无法启动安装包：{exc.__class__.__name__}: {exc}")
     if r.returncode == 0:
-        return True, "安装完成"
+        return FixResult(True, "安装完成", exit_codes=(r.returncode,))
     if r.returncode == 3010:
-        return True, "安装完成（需重启生效）"
+        return FixResult(True, "安装完成（需重启生效）", needs_reboot=True, exit_codes=(r.returncode,))
     if r.returncode == 1638:
-        return True, "已安装同等或更高版本，跳过"
-    return False, f"安装包返回 {r.returncode}"
+        return FixResult(True, "已安装另一版本，需复检是否满足要求", exit_codes=(r.returncode,))
+    return FixResult(False, f"安装包返回 {r.returncode}", exit_codes=(r.returncode,))
 
 
 @fix("regsvr.run")
@@ -1091,15 +1103,16 @@ def _f_vcredist_install(a):
     gen 对应 VC_GENERATIONS 的版本号；不传 arch 就把该代际所有已验证架构都装一遍。
     """
     if not w.is_admin():
-        return False, "安装运行库需要管理员权限，请以管理员身份重开本程序"
+        return FixResult(False, "安装运行库需要管理员权限，请以管理员身份重开本程序")
     gen = int(a.get("gen", 14))
     want_arch = a.get("arch")
     targets = sorted((g, ar) for (g, ar) in VC_INSTALLERS
                      if g == gen and (not want_arch or ar == want_arch))
     if not targets:
-        return False, f"VC++ {gen} 这一代暂无已验证的官方安装包地址，请按官网手动安装"
+        return FixResult(False, f"VC++ {gen} 这一代暂无已验证的官方安装包地址，请按官网手动安装")
 
     parts, all_ok = [], True
+    needs_reboot, exit_codes = False, []
     for g, ar in targets:
         url = VC_INSTALLERS[(g, ar)]
         with tempfile.TemporaryDirectory(prefix="ksr_install_") as folder:
@@ -1109,23 +1122,25 @@ def _f_vcredist_install(a):
                 all_ok = False
                 parts.append(f"{ar} 下载失败：{msg}")
                 continue
-            ok2, msg2 = _run_installer(dst, VC_INSTALL_ARGS.get(g, VC_INSTALL_ARGS_DEFAULT))
-            all_ok = all_ok and ok2
-            parts.append(f"{ar} {msg2}")
-    return all_ok, "；".join(parts)
+            result = _run_installer(dst, VC_INSTALL_ARGS.get(g, VC_INSTALL_ARGS_DEFAULT))
+            all_ok = all_ok and result.ok
+            needs_reboot = needs_reboot or result.needs_reboot
+            exit_codes.extend(result.exit_codes)
+            parts.append(f"{ar} {result.message}")
+    return FixResult(all_ok, "；".join(parts), needs_reboot, tuple(exit_codes))
 
 
 @fix("directx.install")
 def _f_directx_install(a):
     if not w.is_admin():
-        return False, "安装 DirectX 需要管理员权限，请以管理员身份重开本程序"
+        return FixResult(False, "安装 DirectX 需要管理员权限，请以管理员身份重开本程序")
     with tempfile.TemporaryDirectory(prefix="ksr_install_") as folder:
         dst = os.path.join(folder, "dxwebsetup.exe")
         good, msg = _download(OFFICIAL_URLS["directx"], dst)
         if not good:
-            return False, msg
-        ok2, msg2 = _run_installer(dst, ["/Q"], timeout=1200)
-        return ok2, f"{msg}；{msg2}"
+            return FixResult(False, msg)
+        result = _run_installer(dst, ["/Q"], timeout=1200)
+        return FixResult(result.ok, f"{msg}；{result.message}", result.needs_reboot, result.exit_codes)
 
 
 # ====================================================================

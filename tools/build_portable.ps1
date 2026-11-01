@@ -15,6 +15,9 @@ try {
     Copy-Item -LiteralPath docs/PROVENANCE.md -Destination dist/KSR/docs/PROVENANCE.md
     python tools/collect_licenses.py dist/KSR
     if ($LASTEXITCODE -ne 0) { throw 'License collection failed' }
-    Compress-Archive -Path dist/KSR -DestinationPath dist/KSR-1.1.0a1-windows-x64.zip -Force
-    Get-FileHash -Algorithm SHA256 dist/KSR-1.1.0a1-windows-x64.zip
+    $buildVersion = python -c "from ksr import __version__; print(__version__)"
+    if ($LASTEXITCODE -ne 0) { throw 'Could not determine version' }
+    $archivePath = "dist/KSR-$buildVersion-windows-x64.zip"
+    Compress-Archive -Path dist/KSR -DestinationPath $archivePath -Force
+    Get-FileHash -Algorithm SHA256 $archivePath
 } finally { Pop-Location }

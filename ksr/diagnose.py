@@ -1,6 +1,5 @@
 """Read-only PE import and .NET configuration inspection. Never loads the selected application."""
 from __future__ import annotations
-import json
 import os
 from pathlib import Path
 import struct
@@ -133,37 +132,6 @@ def inspect(path):
         dependencies.append(result)
     configuration = source.with_suffix(".runtimeconfig.json")
     runtime = None
-    if configuration.is_file():
-        if configuration.stat().st_size > 1024 * 1024:
-            raise ValueError("运行时配置超过大小上限")
-        config = json.loads(configuration.read_text(encoding="utf-8-sig"))
-        if not isinstance(config, dict):
-            raise ValueError("运行时配置必须是 JSON 对象")
-        options = config.get("runtimeOptions", {})
-        if not isinstance(options, dict):
-            raise ValueError("runtimeOptions 必须是 JSON 对象")
-        requested = options.get("frameworks", []) or ([options["framework"]] if options.get("framework") else [])
-        if not isinstance(requested, list) or len(requested) > 32:
-            raise ValueError("运行时配置无效")
-        roots = [Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "dotnet"]
-        if binary.machine == "x86":
-            roots = [Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / "dotnet"]
-        rows = []
-        for entry in requested:
-            if not isinstance(entry, dict):
-                raise ValueError("framework 配置必须是 JSON 对象")
-            name, version = str(entry.get("name", "")), str(entry.get("version", ""))
-            if not name or any(c in name for c in "/\\:") or name in (".", ".."):
-                raise ValueError("运行时名称无效")
-            installed = []
-            for folder in roots:
-                shared = folder / "shared" / name
-                if shared.is_dir():
-                    installed.extend(p.name for p in shared.iterdir() if p.is_dir())
-            rows.append({"name": name, "requested_version": version, "installed_candidates": sorted(set(installed))})
-        runtime = {"configuration": str(configuration), "frameworks": rows,
-                   "roll_forward": options.get("rollForward", "default"),
-                   "note": "列出本机候选版本；尚未模拟全部 rollForward、自包含部署及自定义宿主规则"}
     unresolved = [d for d in dependencies if d["status"] in {"unresolved", "architecture_mismatch", "unreadable"}]
     recommendations = []
     if any(d["family"] == "application_qt" for d in unresolved):
@@ -172,7 +140,13 @@ def inspect(path):
         recommendations.append("核对目标程序要求的 VC++ 代际与架构，再安装对应官方运行库。")
     if any(d["family"] == "legacy_directx" for d in unresolved):
         recommendations.append("核对旧版 DirectX SDK 兼容组件；它与 Windows 自带核心 DirectX 不同。")
+    if configuration.is_file():
+        from .dotnet import inspect_app
+        runtime = inspect_app(source)
+        if runtime['status'] == 'missing':
+            recommendations.append('应用所需的现代 .NET 运行时尚不满足，可查看官方运行时安装计划。')
     return {"path": str(source), "machine": binary.machine, "bits": binary.bits,
             "dependencies": dependencies, "runtime": runtime, "recommendations": recommendations,
             "limitations": ["静态分析，不启动或加载目标程序。", "仅检查直接普通导入；未解析延迟导入、全部传递依赖和加载器搜索策略。",
-                            "未解析到依赖是诊断线索，不等于确认缺失；应用可能使用 SxS、自定义路径或插件。"]}
+                            "未解析到依赖是诊断线索，不等于确认缺失；应用可能使用 SxS、自定义路径或插件。",
+                            "现代 .NET 支持稳定版常规框架依赖；自定义宿主、旧版本策略和命令行覆盖需要另行诊断。"]}
