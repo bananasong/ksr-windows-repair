@@ -20,6 +20,8 @@ import tempfile
 import time
 import urllib.request
 from dataclasses import dataclass, field
+from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import winreg
 
@@ -934,6 +936,47 @@ def _find_dll(name: str) -> str | None:
     return None
 
 
+def _vc80_sxs(arch="x86"):
+    """Inventory a complete VC80 CRT assembly; not an app activation/load test."""
+    if arch not in {"x86", "x64"}:
+        return bad(f"不支持的 VC++ 2005 架构：{arch}")
+    processor = "amd64" if arch == "x64" else "x86"
+    root = Path(w.system_root()) / "WinSxS"
+    pattern = re.compile(rf"{processor}_microsoft\.vc80\.crt_1fc8b3b9a1e18e3b_"
+                         r"(8\.\d+\.\d+\.\d+)_none_[a-z0-9]+", re.I)
+    assemblies = []
+    try:
+        folders = list(root.iterdir()) if root.exists() else []
+        for folder in folders:
+            match = pattern.fullmatch(folder.name)
+            if not match or not folder.is_dir():
+                continue
+            manifest = root / "Manifests" / (folder.name + ".manifest")
+            try:
+                document = ET.parse(manifest)
+            except (FileNotFoundError, ET.ParseError):
+                continue
+            identity = document.getroot().find("{urn:schemas-microsoft-com:asm.v1}assemblyIdentity")
+            if identity is None or any(identity.get(key, "").lower() != value.lower() for key, value in {
+                "name": "Microsoft.VC80.CRT", "type": "win32", "processorArchitecture": processor,
+                "publicKeyToken": "1fc8b3b9a1e18e3b", "version": match.group(1),
+            }.items()):
+                continue
+            payloads = [w.pe_info(str(folder / name)) for name in catalog.BY_ID['vc80']['files']]
+            if all(info and info["arch"] == arch for info in payloads):
+                assemblies.append({"version": match.group(1), "directory": str(folder), "manifest": str(manifest)})
+    except OSError as exc:
+        return {"ok": False, "status": "unavailable", "detail": f"无法读取 VC++ 2005 WinSxS 清单：{exc}",
+                "data": {"cat": "vc80", "arch": arch}}
+    if assemblies:
+        assemblies.sort(key=lambda row: tuple(map(int, row['version'].split('.'))), reverse=True)
+        return ok(f"VC++ 2005 ({arch}) WinSxS 清单及 CRT 文件齐备，版本 {assemblies[0]['version']}",
+                  cat="vc80", arch=arch, assemblies=assemblies,
+                  verification="assembly_inventory; not application activation")
+    return bad(f"未找到完整的 VC++ 2005 ({arch}) WinSxS CRT 程序集（兼容组件，按需安装）",
+               cat="vc80", arch=arch, severity="info", tier=catalog.COMPAT)
+
+
 @check("dll.catalog")
 def _dll_catalog(a):
     """按清单分组清点文件。args: {cat}"""
@@ -941,6 +984,8 @@ def _dll_catalog(a):
     cat = catalog.BY_ID.get(cat_id)
     if not cat:
         return bad(f"未知清单分类 {cat_id}")
+    if cat_id == "vc80":
+        return _vc80_sxs(a.get("arch", "x86"))
     files = [name for name in cat["files"] if not name.lower().startswith(("api-", "ext-"))]
     missing = [f for f in files if not _find_dll(f)]
     tier = cat["tier"]

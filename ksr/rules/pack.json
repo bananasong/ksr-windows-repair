@@ -1550,15 +1550,16 @@
       "optional": true
     },
     {
-      "uuid": "c5ec9cb3-3e96-5f83-9535-b6fb6a7e0674",
+      "uuid": "d053ddbb-0768-5de7-8f24-7737ac4ba24e",
       "group": "runtime",
-      "title": "VC++ 2005 运行库 (msvcr80)",
+      "title": "VC++ 2005 运行库 x86 (msvcr80)",
       "severity": "warn",
-      "impact": "2005-2008 年编译的老软件依赖，缺失提示 msvcr80.dll 找不到",
+      "impact": "部分老式 32 位软件依赖，检查 WinSxS 中的 CRT 清单和文件；不代表所有程序均可启动",
       "check": {
         "api": "dll.catalog",
         "args": {
-          "cat": "vc80"
+          "cat": "vc80",
+          "arch": "x86"
         }
       },
       "tags": [
@@ -1570,13 +1571,15 @@
       "fix": {
         "api": "vcredist.install",
         "args": {
-          "gen": 8
+          "gen": 8,
+          "arch": "x86"
         }
       },
       "verify": {
         "api": "dll.catalog",
         "args": {
-          "cat": "vc80"
+          "cat": "vc80",
+          "arch": "x86"
         }
       }
     },

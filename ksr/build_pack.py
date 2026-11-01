@@ -287,7 +287,7 @@ _NO_AUTOFIX = {"vc_legacy", "vc90", "mfc_atl"}
 CAT_FIX_ARGS = {
     "ucrt": {"gen": 14, "arch": "x64"},
     "vcomp": {"gen": 14, "arch": "x64"},
-    "vc80": {"gen": 8},
+    "vc80": {"gen": 8, "arch": "x86"},
 }
 
 for _cat in catalog.CATALOG:
@@ -303,7 +303,7 @@ for _cat in catalog.CATALOG:
         _fargs = None
     RULES.append((
         _grp, _cat["title"], "warn", _cat["purpose"],
-        "dll.catalog", {"cat": _cat["id"]},
+        "dll.catalog", {"cat": _cat["id"], **({"arch": "x86"} if _cat["id"] == "vc80" else {})},
         _fapi, _fargs, bool(_fapi), False,
         ["dllcatalog"],
     ))

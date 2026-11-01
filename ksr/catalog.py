@@ -124,9 +124,9 @@ CATALOG = [
     },
     {
         "id": "vc80",
-        "title": "VC++ 2005 运行库 (msvcr80)",
+        "title": "VC++ 2005 运行库 x86 (msvcr80)",
         "tier": COMPAT,
-        "purpose": "2005-2008 年编译的老软件依赖，缺失提示 msvcr80.dll 找不到",
+        "purpose": "部分老式 32 位软件依赖，检查 WinSxS 中的 CRT 清单和文件；不代表所有程序均可启动",
         "fix": _VC_REDIST,
         "files": ["msvcr80.dll", "msvcp80.dll"],
     },
